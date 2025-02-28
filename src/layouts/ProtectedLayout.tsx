@@ -1,4 +1,4 @@
-import { useAuth } from "../context/AuthContext";
+import { UseAuth } from "../context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 
 interface ProtectedLayoutProps {
@@ -6,7 +6,7 @@ interface ProtectedLayoutProps {
 }
 
 export const ProtectedLayout = ({ requiredRoles = [] }: ProtectedLayoutProps) => {
-    const { user, loading } = useAuth();
+    const { user, loading } = UseAuth();
     if (loading) return <p>Loading...</p>;
     if (!user?.roles || (!requiredRoles?.includes(user.roles))) {
         return <Navigate to="/" />;

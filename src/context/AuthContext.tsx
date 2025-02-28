@@ -60,8 +60,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     );
 };
 
-export const useAuth = () => {
+export const UseAuth = () => {
     const context = useContext(AuthContext);
-    if (!context) throw new Error("useAuth must be used inside an AuthProvider");
+    if (!context) throw new Error("UseAuth must be used inside an AuthProvider");
     return context;
 };

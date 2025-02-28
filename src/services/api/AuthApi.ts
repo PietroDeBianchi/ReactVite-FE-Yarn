@@ -11,13 +11,6 @@ export const login = async (data: LoginData): Promise<AuthResponse> => {
 };
 
 /**
- * Logout by reomving cookie token.
- */
-export const logout = async (): Promise<void> => {
-    await api.post("/auth/logout");
-};
-
-/**
  * Get User data if auth.
  * Token included in cookie.
  */

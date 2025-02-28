@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Paper } from "@mui/material";
 import { login } from "../../services/api/AuthApi";
-import { useAuth } from "../../context/AuthContext";
+import { UseAuth } from "../../context/AuthContext";
 
 const loginSchema = z.object({
     email: z.string().email("Email non valida"),
@@ -18,7 +18,7 @@ export default function Login() {
         resolver: zodResolver(loginSchema),
     });
 
-    const { loginSuccess } = useAuth();
+    const { loginSuccess } = UseAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
