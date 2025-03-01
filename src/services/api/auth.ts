@@ -3,12 +3,14 @@ import api from "../axios";
 //REGISTER
 export const register = async (userData: {email: string, password: string, firstName: string, lastName: string, phone: string | null}) => {
     try {
-        await api.post(
+        const response = await api.post(
             "/auth/register",
             userData,
-        );
-    } catch (error) {
-        console.error("Errore di login", error);
+        ); 
+        return response.data;
+    } catch (error: any) {
+        console.error("Errore nella Registrazione", error);
+        return error.response.data;
     }
 };
 
@@ -21,10 +23,8 @@ export const login = async (email: string, password: string) => {
         );
         return response.data;
     } catch (error: any) {
-        if (error.response && error.response.data) {
-            return error.response.data;
-        }
-        return { success: false, message: "Errore di connessione al server" };
+        console.error("Errore nella Login", error);
+        return error.response.data;
     }
 };
 
@@ -35,5 +35,6 @@ export const getMe = async () => {
         return data;
     } catch (error: any) {
         console.error("Errore nel recupero utente", error);
+        return error.response.data;
     }
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UseAuth } from "../../context/AuthContext";
-import { Container, TextField, Button, Typography, Box } from "@mui/material";
+import { Container, TextField, Button, Typography, Box, Alert } from "@mui/material";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -69,6 +69,11 @@ const Login = () => {
                 <Typography variant="body2" sx={{ mt: 2 }}>
                     Non hai un account? <Link to="/register">Registrati</Link>
                 </Typography>
+                {error && (
+                    <Alert severity="error" sx={{ mt: 2 }}>
+                        {error}
+                    </Alert>
+                )}
             </Box>
         </Container>
     );
