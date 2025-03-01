@@ -35,8 +35,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
         try {
             const response = await getMe();
-            if (response?.user) {
-                setUser(response.user);
+            if (response?.data) {
+                setUser(response.data);
             }
         } catch (error) {
             setUser(null);

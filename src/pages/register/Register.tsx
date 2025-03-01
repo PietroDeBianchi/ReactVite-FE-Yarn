@@ -161,7 +161,7 @@ const Register = () => {
                     </Button>
                 </form>
                 <Typography variant="body2" sx={{ mt: 2 }}>
-                    Hai già un account? <Link to="/login">Accedi</Link>
+                    Hai già un account? <Link to="/">Accedi</Link>
                 </Typography>
             </Box>
         </Container>
