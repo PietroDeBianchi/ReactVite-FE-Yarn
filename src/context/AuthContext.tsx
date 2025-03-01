@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const handleLogin = async (email: string, password: string) => {
         const response = await login(email, password);
-        if (response?.status === 200) {
+        if (response?.success) {
             await fetchUser();
         }
         return response;

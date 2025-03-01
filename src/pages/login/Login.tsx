@@ -35,7 +35,7 @@ const Login = () => {
                 }}
             >
                 <Typography variant="h4" gutterBottom>
-                    Login
+                    Login{" "}
                 </Typography>
                 <form onSubmit={handleSubmit} style={{ width: "100%" }}>
                     <TextField

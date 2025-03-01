@@ -33,7 +33,7 @@ export const getMe = async () => {
     try {
         const data = await api.get("/auth/me");
         return data;
-    } catch (error) {
+    } catch (error: any) {
         console.error("Errore nel recupero utente", error);
     }
 };
