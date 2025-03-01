@@ -35,8 +35,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
         try {
             const response = await getMe();
-            if (response?.data?.user) {
-                setUser(response.data.user);
+            console.log(response.user);
+            if (response?.user) {
+                setUser(response.user);
             }
         } catch (error) {
             setUser(null);
@@ -44,7 +45,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setIsLoading(false);
         }
     };
-
     const handleLogin = async (email: string, password: string) => {
         const response = await login(email, password);
         if (response?.success) {
@@ -52,11 +52,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
         return response;
     };
-
     useEffect(() => {
         fetchUser();
     }, []);
-
     return (
         <AuthContext.Provider value={{ user, login: handleLogin, isLoading }}>
             {children}

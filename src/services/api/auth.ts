@@ -31,8 +31,8 @@ export const login = async (email: string, password: string) => {
 //GETME
 export const getMe = async () => {
     try {
-        const data = await api.get("/auth/me");
-        return data;
+        const response = await api.get("/auth/me");
+        return response.data;
     } catch (error: any) {
         console.error("Errore nel recupero utente", error);
         return error.response.data;
