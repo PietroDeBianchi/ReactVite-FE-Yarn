@@ -53,10 +53,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return response;
     };
     useEffect(() => {
-        if (!user) {
-            fetchUser();
-        }
-    }, [user]); // KEEP ?? REMOVE
+        fetchUser();
+    }, []);
     return (
         <AuthContext.Provider value={{ user, login: handleLogin, isLoading }}>
             {children}
