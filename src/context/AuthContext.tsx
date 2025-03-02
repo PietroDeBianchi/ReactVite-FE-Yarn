@@ -6,11 +6,12 @@ import {
     ReactNode,
 } from "react";
 import Cookies from "js-cookie";
-import { getMe, login } from "../services/api/auth"; 
+import { getMe, login } from "../services/api/auth";
 import User from "../models/User";
 
 const hasAuthToken = () => {
-    return Cookies.get("token") !== undefined;
+    const token = Cookies.get("token");
+    return token && token.trim() !== "";
 };
 
 // Context Type
@@ -27,7 +28,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-
     const fetchUser = async () => {
         if (!hasAuthToken()) {
             setIsLoading(false);
@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             }
         } catch (error) {
             setUser(null);
+            Cookies.remove("token");
         } finally {
             setIsLoading(false);
         }
@@ -52,8 +53,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return response;
     };
     useEffect(() => {
-        fetchUser();
-    }, []);
+        if (!user) {
+            fetchUser();
+        }
+    }, [user]); // KEEP ?? REMOVE
     return (
         <AuthContext.Provider value={{ user, login: handleLogin, isLoading }}>
             {children}

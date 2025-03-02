@@ -40,7 +40,6 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 const Register = () => {
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-
     const {
         register: formRegister,
         handleSubmit,
