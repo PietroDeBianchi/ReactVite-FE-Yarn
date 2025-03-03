@@ -40,5 +40,10 @@ Check .env.example
 - `yarn start` # Start production server
 
 
-### 🔥 API Endpoints 
-Make sure `VITE_API_URL` points to the backend before running API requests
+### 🔥 API Response Structure 
+
+All API responses follow this structure:
+
+const ApiResponse = (success, data = null, message = "") => {
+    return { success, data, message };
+};
