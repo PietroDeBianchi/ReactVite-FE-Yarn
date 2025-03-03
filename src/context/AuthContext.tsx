@@ -7,7 +7,7 @@ import {
 } from "react";
 import Cookies from "js-cookie";
 import { getMe, login } from "../services/api/auth";
-import User from "../models/User";
+import User from "../types/User";
 
 const hasAuthToken = () => {
     const token = Cookies.get("token");
