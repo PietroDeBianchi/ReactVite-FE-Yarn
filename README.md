@@ -25,9 +25,9 @@ The project is designed to work with the ReactVite-BE backend, providing a user-
 
 ### 1 Clone repository and Install dependecies:
 
-`git clone https://github.com/PietroDeBianchi/ReactVite-FE-Yarn.git`
-`cd ReactVite-FE-Yarn`
-`yarn install`
+- `git clone https://github.com/PietroDeBianchi/ReactVite-FE-Yarn.git`
+- `cd ReactVite-FE-Yarn`
+- `yarn install`
 
 ### 2 Set .ENV :
 
