@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Container, Typography, Button, Box, Card, CardContent, Avatar, Chip } from "@mui/material";
 
 const Dashboard = () => {
-    const { user } = UseAuth(); // Recupera i dati dell'utente
-    const navigate = useNavigate(); // Hook per la navigazione
+    const { user } = UseAuth();
+    const navigate = useNavigate();
 
     return (
         <Box

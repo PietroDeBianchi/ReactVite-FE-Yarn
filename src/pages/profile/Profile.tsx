@@ -88,7 +88,6 @@ const Profile = () => {
                             Modifica i tuoi dati personali
                         </Typography>
 
-                        {/* FORM */}
                         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
                             <TextField
                                 fullWidth
@@ -127,8 +126,6 @@ const Profile = () => {
                                 error={!!errors.phone}
                                 helperText={errors.phone?.message}
                             />
-
-                            {/* BOTTONI */}
                             <Button
                                 fullWidth
                                 variant="contained"
