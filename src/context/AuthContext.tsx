@@ -17,8 +17,9 @@ const hasAuthToken = () => {
 // Context Type
 interface AuthContextType {
     user: User | null;
-    login: (email: string, password: string) => Promise<any>;
     isLoading: boolean;
+    hasCookie: boolean;
+    login: (email: string, password: string) => Promise<any>;
     logout: () => void;
 }
 
@@ -28,6 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Context Provider
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [hasCookie, setHasCookie] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const fetchUser = async () => {
         if (!hasAuthToken()) {
@@ -38,9 +40,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const response = await getMe();
             if (response?.data) {
                 setUser(response.data);
+                setHasCookie(true);
             }
         } catch (error) {
             setUser(null);
+            setHasCookie(false);
             Cookies.remove("token");
         } finally {
             setIsLoading(false);
@@ -56,6 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const handleLogout = () => {
         Cookies.remove("token");
         setUser(null);
+        setHasCookie(false);
     };
     useEffect(() => {
         fetchUser();
@@ -64,9 +69,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         <AuthContext.Provider
             value={{
                 user,
+                isLoading,
+                hasCookie,
                 login: handleLogin,
                 logout: handleLogout,
-                isLoading,
             }}
         >
             {children}
