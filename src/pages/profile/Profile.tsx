@@ -1,5 +1,4 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UseAuth } from "../../context/AuthContext";
 import {
@@ -10,42 +9,70 @@ import {
     Box,
     Card,
     CardContent,
-    Avatar
+    Avatar,
+    Snackbar,
+    Alert,
 } from "@mui/material";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { updateUser } from "../../services/api/user";
 
-// Schema di validazione con Zod
+// Validation schema using Zod
 const profileSchema = z.object({
-    firstName: z.string().min(1, "Il nome è obbligatorio"),
-    lastName: z.string().min(1, "Il cognome è obbligatorio"),
-    email: z.string().email("Inserisci un'email valida"),
-    phone: z.string().optional().refine((val) => !val || /^\+?\d{7,15}$/.test(val), {
-        message: "Numero di telefono non valido",
-    }),
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    email: z.string().email("Enter a valid email"),
+    phone: z
+        .string()
+        .nullable()
+        .refine((val) => !val || /^\+?\d{7,15}$/.test(val), {
+            message: "Invalid phone number",
+        }),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const Profile = () => {
-    const { user } = UseAuth();
+    const { user } = UseAuth(); // Extract setUser to update user state
     const navigate = useNavigate();
+    const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
+    const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar
 
+    // React Hook Form with default values from user data
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<ProfileFormData>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
             firstName: user?.firstName || "",
             lastName: user?.lastName || "",
             email: user?.email || "",
-            phone: user?.phone || "",
+            phone: user?.phone || null,
         },
     });
 
-    const onSubmit = (data: ProfileFormData) => {
-        console.log("Dati salvati:", data);
+    // Handle form submission
+    const onSubmit = async (data: ProfileFormData) => {
+        try {
+            if (!user?._id) return;
+            const response = await updateUser(user._id, data);
+            if (response.success) {
+                setMessage(response.message);
+                reset(data); // Reset form with updated data
+            } else {
+                setError(response.message);
+            }
+            setOpenSnackbar(true); // Show snackbar
+        } catch (error) {
+            console.error("Error updating profile", error);
+            setError("Unexpected error. Please try again.");
+            setOpenSnackbar(true);
+        }
     };
 
     return (
@@ -55,7 +82,8 @@ const Profile = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                background: "linear-gradient(to right,rgb(141, 218, 241),rgb(51, 98, 178))"
+                background:
+                    "linear-gradient(to right,rgb(141, 218, 241),rgb(51, 98, 178))",
             }}
         >
             <Container maxWidth="sm">
@@ -66,32 +94,44 @@ const Profile = () => {
                         boxShadow: 3,
                         textAlign: "center",
                         backdropFilter: "blur(10px)",
-                        backgroundColor: "rgba(255, 255, 255, 0.85)"
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
                     }}
                 >
                     <CardContent>
+                        {/* User Avatar */}
                         <Avatar
                             sx={{
                                 width: 80,
                                 height: 80,
                                 margin: "0 auto",
                                 bgcolor: "#6a11cb",
-                                fontSize: "2rem"
+                                fontSize: "2rem",
                             }}
                         >
                             {user?.firstName?.charAt(0).toUpperCase()}
                         </Avatar>
-                        <Typography variant="h4" fontWeight="bold" color="primary" sx={{ mt: 2 }}>
-                            Profilo Utente
+
+                        {/* Title */}
+                        <Typography
+                            variant="h4"
+                            fontWeight="bold"
+                            color="primary"
+                            sx={{ mt: 2 }}
+                        >
+                            User Profile
                         </Typography>
                         <Typography variant="body1" sx={{ mb: 3 }}>
-                            Modifica i tuoi dati personali
+                            Edit your personal details
                         </Typography>
 
-                        <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+                        {/* Profile Form */}
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            style={{ width: "100%" }}
+                        >
                             <TextField
                                 fullWidth
-                                label="Nome"
+                                label="First Name"
                                 variant="outlined"
                                 margin="normal"
                                 {...register("firstName")}
@@ -100,7 +140,7 @@ const Profile = () => {
                             />
                             <TextField
                                 fullWidth
-                                label="Cognome"
+                                label="Last Name"
                                 variant="outlined"
                                 margin="normal"
                                 {...register("lastName")}
@@ -119,13 +159,15 @@ const Profile = () => {
                             />
                             <TextField
                                 fullWidth
-                                label="Telefono"
+                                label="Phone"
                                 variant="outlined"
                                 margin="normal"
                                 {...register("phone")}
                                 error={!!errors.phone}
                                 helperText={errors.phone?.message}
                             />
+
+                            {/* Submit Button */}
                             <Button
                                 fullWidth
                                 variant="contained"
@@ -133,9 +175,10 @@ const Profile = () => {
                                 sx={{ mt: 3 }}
                                 type="submit"
                             >
-                                Salva Modifiche
+                                Save Changes
                             </Button>
 
+                            {/* Back to Dashboard */}
                             <Button
                                 fullWidth
                                 variant="outlined"
@@ -143,12 +186,28 @@ const Profile = () => {
                                 sx={{ mt: 2 }}
                                 onClick={() => navigate("/dashboard")}
                             >
-                                Torna alla Dashboard
+                                Back to Dashboard
                             </Button>
                         </form>
                     </CardContent>
                 </Card>
             </Container>
+
+            {/* Snackbar for Notifications */}
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={4000}
+                onClose={() => setOpenSnackbar(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={() => setOpenSnackbar(false)}
+                    severity={error ? "error" : "success"}
+                    sx={{ width: "100%" }}
+                >
+                    {error || message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };
