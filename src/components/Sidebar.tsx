@@ -14,7 +14,7 @@ const Sidebar = () => {
             sx={{
                 background: theme.palette.background.default,
                 transition: 'background-color 0.3s ease-in-out',
-                height: '100vh',
+                minHeight: '100vh',
                 display: 'flex',
                 flexDirection: 'column',
             }}
