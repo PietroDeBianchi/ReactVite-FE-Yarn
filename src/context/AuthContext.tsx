@@ -19,6 +19,7 @@ interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<any>;
     isLoading: boolean;
+    logout: () => void;
 }
 
 // Context Create
@@ -52,11 +53,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
         return response;
     };
+    const handleLogout = () => {
+        Cookies.remove("token");
+        setUser(null);
+    };
     useEffect(() => {
         fetchUser();
     }, []);
     return (
-        <AuthContext.Provider value={{ user, login: handleLogin, isLoading }}>
+        <AuthContext.Provider
+            value={{
+                user,
+                login: handleLogin,
+                logout: handleLogout,
+                isLoading,
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );
