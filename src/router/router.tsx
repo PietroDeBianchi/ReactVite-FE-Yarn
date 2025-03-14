@@ -13,7 +13,9 @@ export default function AppRouter({ toggleTheme, darkMode }: AppRouterProps) {
             <Routes>
                 {...PublicRoutes}
                 {/* Protected Routes*/}
-                <Route element={<PrivateRoute allowedRoles={['user', 'admin', 'superadmin']} toggleTheme={toggleTheme} darkMode={darkMode} />}>{...ProtectedRoutes}</Route>
+                <Route element={<PrivateRoute allowedRoles={['user', 'admin', 'superadmin']} toggleTheme={toggleTheme} darkMode={darkMode} />}>
+                    {...ProtectedRoutes}
+                </Route>
             </Routes>
         </BrowserRouter>
     );

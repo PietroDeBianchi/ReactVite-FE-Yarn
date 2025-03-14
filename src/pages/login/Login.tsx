@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { UseAuth } from "../../context/AuthContext";
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { UseAuth } from '../../context/AuthContext';
 import {
     Container,
     TextField,
@@ -13,17 +13,20 @@ import {
     CardContent,
     InputAdornment,
     IconButton,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+    useTheme,
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
     const { login } = UseAuth();
     const navigate = useNavigate();
+    const theme = useTheme(); // Hook per accedere al tema
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,14 +34,14 @@ const Login = () => {
         try {
             const response = await login(email, password);
             if (response.success) {
-                navigate("/dashboard");
+                navigate('/dashboard');
             } else {
                 setError(response.message);
                 setOpenSnackbar(true);
             }
         } catch (error) {
-            console.error("Login error", error);
-            setError("Unexpected error. Please try again.");
+            console.error('Login error', error);
+            setError('Unexpected error. Please try again.');
             setOpenSnackbar(true);
         }
     };
@@ -46,95 +49,84 @@ const Login = () => {
     return (
         <Box
             sx={{
-                minHeight: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
                 background:
-                    "linear-gradient(to right,rgb(141, 218, 241),rgb(51, 98, 178))",
+                    theme.palette.mode === 'light' ? 'linear-gradient(to right, #E3F2FD, #90CAF9)' : 'linear-gradient(to right, #1E1E1E, #424242)',
+                transition: 'background 0.3s ease-in-out',
             }}
         >
-            <Container maxWidth="sm">
+            <Container maxWidth='sm'>
                 <Card
                     sx={{
                         p: 3,
                         borderRadius: 3,
                         boxShadow: 3,
-                        backdropFilter: "blur(10px)",
-                        backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        backdropFilter: 'blur(10px)',
+                        backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(38, 50, 56, 0.85)',
+                        transition: 'background-color 0.3s ease-in-out',
                     }}
                 >
                     <CardContent>
-                        {/* Title */}
-                        <Box sx={{ textAlign: "center", mb: 3 }}>
-                            <Typography
-                                variant="h4"
-                                fontWeight="bold"
-                                color="primary"
-                            >
+                        {/* Titolo */}
+                        <Box sx={{ textAlign: 'center', mb: 3 }}>
+                            <Typography variant='h4' fontWeight='bold' color='primary'>
                                 Login
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant='body2' color='text.secondary'>
                                 Sign in to continue
                             </Typography>
                         </Box>
 
                         {/* Login Form */}
-                        <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+                        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                             <TextField
                                 fullWidth
-                                label="Email"
-                                type="email"
-                                variant="outlined"
-                                margin="normal"
+                                label='Email'
+                                type='email'
+                                variant='outlined'
+                                margin='normal'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                error={!!error}
                             />
                             <TextField
                                 fullWidth
-                                label="Password"
-                                type={showPassword ? "text" : "password"}
-                                variant="outlined"
-                                margin="normal"
+                                label='Password'
+                                type={showPassword ? 'text' : 'password'}
+                                variant='outlined'
+                                margin='normal'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 InputProps={{
                                     endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                onClick={() =>
-                                                    setShowPassword(
-                                                        !showPassword
-                                                    )
-                                                }
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
+                                        <InputAdornment position='end'>
+                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge='end'>
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
                                 }}
+                                error={!!error}
                             />
 
                             {/* Submit Button */}
                             <Button
                                 fullWidth
-                                variant="contained"
-                                color="primary"
-                                type="submit"
+                                variant='contained'
+                                color='primary'
+                                type='submit'
                                 sx={{
                                     mt: 2,
                                     py: 1.5,
-                                    fontSize: "1rem",
-                                    textTransform: "none",
-                                    borderRadius: "8px",
-                                    transition: "0.3s",
-                                    "&:hover": {
-                                        backgroundColor: "#2051f5",
+                                    fontSize: '1rem',
+                                    textTransform: 'none',
+                                    borderRadius: '8px',
+                                    transition: '0.3s',
+                                    '&:hover': {
+                                        backgroundColor: theme.palette.primary.dark,
                                     },
                                 }}
                             >
@@ -143,16 +135,13 @@ const Login = () => {
                         </form>
 
                         {/* Sign Up Redirect */}
-                        <Typography
-                            variant="body2"
-                            sx={{ mt: 2, textAlign: "center" }}
-                        >
-                            Don't have an account?{" "}
+                        <Typography variant='body2' sx={{ mt: 2, textAlign: 'center' }} color='text.secondary'>
+                            Don't have an account?{' '}
                             <Link
-                                to="/register"
+                                to='/register'
                                 style={{
-                                    textDecoration: "none",
-                                    color: "#1976d2",
+                                    textDecoration: 'none',
+                                    color: theme.palette.primary.main,
                                 }}
                             >
                                 Sign Up
@@ -167,12 +156,16 @@ const Login = () => {
                 open={openSnackbar}
                 autoHideDuration={4000}
                 onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
                 <Alert
                     onClose={() => setOpenSnackbar(false)}
-                    severity="error"
-                    sx={{ width: "100%" }}
+                    severity='error'
+                    sx={{
+                        width: '100%',
+                        backgroundColor: theme.palette.error.light,
+                        color: theme.palette.mode === 'light' ? 'black' : 'white',
+                    }}
                 >
                     {error}
                 </Alert>
