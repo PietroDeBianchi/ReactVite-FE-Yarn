@@ -32,7 +32,7 @@ const Dashboard = () => {
                         width: 90,
                         height: 90,
                         margin: '0 auto',
-                        bgcolor: theme.palette.primary.light,
+                        bgcolor: theme.palette.primary.dark,
                         fontSize: '2rem',
                     }}
                 >

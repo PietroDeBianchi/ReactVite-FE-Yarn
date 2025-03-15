@@ -105,7 +105,7 @@ const Register = () => {
                         borderRadius: 3,
                         boxShadow: 3,
                         backdropFilter: 'blur(10px)',
-                        backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(38, 50, 56, 0.85)',
+                        backgroundColor: theme.palette.background.paper,
                         transition: 'background-color 0.3s ease-in-out',
                     }}
                 >
@@ -228,7 +228,7 @@ const Register = () => {
                         {/* Login Redirect */}
                         <Typography variant='body2' sx={{ mt: 2, textAlign: 'center' }} color='text.secondary'>
                             Already have an account?{' '}
-                            <Link to='/' style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
+                            <Link to='/' style={{ textDecoration: 'none', color: theme.palette.secondary.dark }}>
                                 Login
                             </Link>
                         </Typography>

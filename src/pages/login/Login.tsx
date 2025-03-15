@@ -65,14 +65,14 @@ const Login = () => {
                         borderRadius: 3,
                         boxShadow: 3,
                         backdropFilter: 'blur(10px)',
-                        backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(38, 50, 56, 0.85)',
+                        backgroundColor: theme.palette.background.paper,
                         transition: 'background-color 0.3s ease-in-out',
                     }}
                 >
                     <CardContent>
                         {/* Titolo */}
                         <Box sx={{ textAlign: 'center', mb: 3 }}>
-                            <Typography variant='h4' fontWeight='bold' color='primary'>
+                            <Typography variant='h4' fontWeight='bold' color='secondary'>
                                 Login
                             </Typography>
                             <Typography variant='body2' color='text.secondary'>
@@ -141,7 +141,7 @@ const Login = () => {
                                 to='/register'
                                 style={{
                                     textDecoration: 'none',
-                                    color: theme.palette.primary.main,
+                                    color: theme.palette.secondary.dark,
                                 }}
                             >
                                 Sign Up

@@ -75,7 +75,7 @@ const Profile = () => {
                     boxShadow: 3,
                     textAlign: 'center',
                     backdropFilter: 'blur(10px)',
-                    backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(38, 50, 56, 0.85)',
+                    backgroundColor: theme.palette.background.paper,
                 }}
             >
                 <CardContent>
@@ -85,7 +85,7 @@ const Profile = () => {
                             width: 80,
                             height: 80,
                             margin: '0 auto',
-                            bgcolor: theme.palette.primary.main,
+                            bgcolor: theme.palette.primary.dark,
                             fontSize: '2rem',
                         }}
                     >

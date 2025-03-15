@@ -5,34 +5,34 @@ const lightPalette: ThemeOptions = {
     palette: {
         mode: "light",
         background: {
-            default: "#F7F9FC",  
-            paper: "#E5E9F0",    
+            default: "#F8FAFC",  // Bianco sporco
+            paper: "#E8EDF2",    // Grigio chiarissimo
         },
         text: {
             primary: "#2E3A47",  
             secondary: "#4D5A65", 
         },
         primary: {
-            main: "#007AFF",
-            light: "#66AFFF",
-            dark: "#005BB5",
+            main: "#A0D8EF",  // Azzurrino pastello
+            light: "#C2E7FF",
+            dark: "#78B6D9",
         },
         secondary: {
-            main: "#FF8A65",
-            light: "#FFB199",
-            dark: "#C75B39",
+            main: "#A3D9A5",  // Verde pastello
+            light: "#C5EAC8",
+            dark: "#78B07F",
         },
         success: {
             main: "#28C76F",
         },
         warning: {
-            main: "#FF9800",
+            main: "#FFA726",
         },
         error: {
-            main: "#FF3D57",
+            main: "#EF5350",
         },
         info: {
-            main: "#17A2B8",
+            main: "#42A5F5",
         },
     },
 };
@@ -42,34 +42,34 @@ const darkPalette: ThemeOptions = {
     palette: {
         mode: "dark",
         background: {
-            default: "#121926",  
-            paper: "#252F3E",    
+            default: "#1A202C",  // Grigio molto scuro
+            paper: "#2D3748",    // Grigio medio scuro
         },
         text: {
-            primary: "#D1D5DB",  
-            secondary: "#A3ACB9", 
+            primary: "#E0E6ED",  
+            secondary: "#BFC8D6", 
         },
         primary: {
-            main: "#0A84FF",  
-            light: "#66B2FF",
-            dark: "#005BBB",
+            main: "#7AB7D8",  // Azzurrino pastello più scuro
+            light: "#A0D8EF",
+            dark: "#4D8EB5",
         },
         secondary: {
-            main: "#FF7043",
-            light: "#FFA07A",
-            dark: "#C75B39",
+            main: "#7AAE7D",  // Verde pastello più scuro
+            light: "#A3D9A5",
+            dark: "#4D7A55",
         },
         success: {
             main: "#28C76F",
         },
         warning: {
-            main: "#FF9800",
+            main: "#FFA726",
         },
         error: {
-            main: "#FF3D57",
+            main: "#EF5350",
         },
         info: {
-            main: "#17A2B8",
+            main: "#42A5F5",
         },
     },
 };
