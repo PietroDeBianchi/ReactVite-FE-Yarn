@@ -115,7 +115,7 @@ const Register = () => {
                             <Typography variant='h4' fontWeight='bold' color='primary'>
                                 Sign Up
                             </Typography>
-                            <Typography variant='body2' color='text.secondary'>
+                            <Typography variant='body2' color={theme.palette.text.primary}>
                                 Create your account
                             </Typography>
                         </Box>
@@ -228,7 +228,7 @@ const Register = () => {
                         {/* Login Redirect */}
                         <Typography variant='body2' sx={{ mt: 2, textAlign: 'center' }} color='text.secondary'>
                             Already have an account?{' '}
-                            <Link to='/' style={{ textDecoration: 'none', color: theme.palette.secondary.dark }}>
+                            <Link to='/' style={{ textDecoration: 'none', color: theme.palette.text.primary }}>
                                 Login
                             </Link>
                         </Typography>

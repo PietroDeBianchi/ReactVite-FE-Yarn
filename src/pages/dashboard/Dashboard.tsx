@@ -45,7 +45,7 @@ const Dashboard = () => {
                 </Typography>
 
                 {/* User Role Chip */}
-                <Chip label={user?.roles === 'admin' ? 'Admin' : 'User'} color={user?.roles === 'admin' ? 'secondary' : 'default'} sx={{ mt: 1 }} />
+                <Chip label={user?.roles === 'admin' ? 'Admin' : 'User'} color={user?.roles === 'admin' ? 'primary' : 'default'} sx={{ mt: 1 }} />
 
                 {/* Description */}
                 <Typography variant='body1' color='text.secondary' sx={{ mt: 2 }}>
@@ -57,8 +57,9 @@ const Dashboard = () => {
                     {/* Profile Button */}
                     <Button
                         variant='contained'
-                        color='primary'
+                        color='inherit'
                         sx={{
+                            color: theme.palette.text.primary,
                             flex: 0.2,
                             textTransform: 'none',
                             fontSize: '1rem',
@@ -66,7 +67,7 @@ const Dashboard = () => {
                             borderRadius: 2,
                             transition: '0.3s',
                             '&:hover': {
-                                backgroundColor: theme.palette.primary.dark,
+                                color: theme.palette.text.primary,
                             },
                         }}
                         onClick={() => navigate('/profile')}

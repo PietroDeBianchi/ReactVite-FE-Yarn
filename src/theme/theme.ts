@@ -5,34 +5,34 @@ const lightPalette: ThemeOptions = {
     palette: {
         mode: "light",
         background: {
-            default: "#F8FAFC",  // Bianco sporco
-            paper: "#E8EDF2",    // Grigio chiarissimo
+            default: "#F4F7F6",  // Bianco sporco moderno
+            paper: "#FFFFFF",    // Bianco puro e pulito
         },
         text: {
-            primary: "#2E3A47",  
-            secondary: "#4D5A65", 
+            primary: "#1F2937",  // Grigio scuro, quasi antracite
+            secondary: "#4B5563", // Grigio medio
         },
         primary: {
-            main: "#A0D8EF",  // Azzurrino pastello
-            light: "#C2E7FF",
-            dark: "#78B6D9",
+            main: "#6BCB77",  // Verde menta fresco
+            light: "#90D7A0",
+            dark: "#4EA461",
         },
         secondary: {
-            main: "#A3D9A5",  // Verde pastello
-            light: "#C5EAC8",
-            dark: "#78B07F",
+            main: "#FF6F61",  // Corallo vibrante
+            light: "#FF998A",
+            dark: "#E55B50",
         },
         success: {
-            main: "#28C76F",
+            main: "#2ECC71",  // Verde vivace e positivo
         },
         warning: {
-            main: "#FFA726",
+            main: "#F1C40F",  // Giallo dorato moderno
         },
         error: {
-            main: "#EF5350",
+            main: "#E74C3C",  // Rosso acceso per gli errori
         },
         info: {
-            main: "#42A5F5",
+            main: "#3498DB",  // Blu brillante per le informazioni
         },
     },
 };
@@ -42,34 +42,34 @@ const darkPalette: ThemeOptions = {
     palette: {
         mode: "dark",
         background: {
-            default: "#1A202C",  // Grigio molto scuro
-            paper: "#2D3748",    // Grigio medio scuro
+            default: "#0C2130",  // Navy profondo
+            paper: "#112D3C",    // Blu notte leggermente più chiaro
         },
         text: {
-            primary: "#E0E6ED",  
-            secondary: "#BFC8D6", 
+            primary: "#D0E2F2",  // Blu pallido per un contrasto morbido
+            secondary: "#A0B4C6", // Tonalità grigio-bluata
         },
         primary: {
-            main: "#7AB7D8",  // Azzurrino pastello più scuro
-            light: "#A0D8EF",
-            dark: "#4D8EB5",
+            main: "#A8FF9A",  // Neon green per un accento vivace
+            light: "#B8FFB8",
+            dark: "#8AD88A",
         },
         secondary: {
-            main: "#7AAE7D",  // Verde pastello più scuro
-            light: "#A3D9A5",
-            dark: "#4D7A55",
+            main: "#044737",  // Verde scuro elegante
+            light: "#0A6E52",
+            dark: "#022F22",
         },
         success: {
-            main: "#28C76F",
+            main: "#36D7B7",  // Turchese fresco per successi
         },
         warning: {
-            main: "#FFA726",
+            main: "#FFC107",  // Ambra luminosa per i warning
         },
         error: {
-            main: "#EF5350",
+            main: "#FF5252",  // Rosso intenso per gli errori
         },
         info: {
-            main: "#42A5F5",
+            main: "#29B6F6",  // Blu chiaro per le informazioni
         },
     },
 };

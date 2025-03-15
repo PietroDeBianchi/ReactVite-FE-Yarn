@@ -165,16 +165,17 @@ const Profile = () => {
                         <Button
                             fullWidth
                             variant='outlined'
-                            color='primary'
+                            color='inherit'
                             sx={{
                                 mt: 2,
+                                color: theme.palette.text.primary,
                                 textTransform: 'none',
                                 fontSize: '1rem',
                                 py: 1.2,
                                 borderRadius: 2,
                                 transition: '0.3s',
                                 '&:hover': {
-                                    backgroundColor: theme.palette.primary.light + '22',
+                                    backgroundColor: theme.palette.primary.dark + '22',
                                 },
                             }}
                             onClick={() => navigate('/dashboard')}

@@ -72,10 +72,10 @@ const Login = () => {
                     <CardContent>
                         {/* Titolo */}
                         <Box sx={{ textAlign: 'center', mb: 3 }}>
-                            <Typography variant='h4' fontWeight='bold' color='secondary'>
+                            <Typography variant='h4' fontWeight='bold' color={theme.palette.primary.dark}>
                                 Login
                             </Typography>
-                            <Typography variant='body2' color='text.secondary'>
+                            <Typography variant='body2' color={theme.palette.text.primary}>
                                 Sign in to continue
                             </Typography>
                         </Box>
@@ -135,13 +135,13 @@ const Login = () => {
                         </form>
 
                         {/* Sign Up Redirect */}
-                        <Typography variant='body2' sx={{ mt: 2, textAlign: 'center' }} color='text.secondary'>
+                        <Typography variant='body2' sx={{ mt: 2, textAlign: 'center' }} color={theme.palette.text.primary}>
                             Don't have an account?{' '}
                             <Link
                                 to='/register'
                                 style={{
                                     textDecoration: 'none',
-                                    color: theme.palette.secondary.dark,
+                                    color: theme.palette.primary.dark,
                                 }}
                             >
                                 Sign Up
