@@ -1,13 +1,10 @@
+import { useCustomTheme } from '../../context/ThemeContext';
 import { AppBar, Toolbar, Typography, IconButton, useTheme } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 
-interface TopbarProps {
-    toggleTheme: () => void;
-    darkMode: boolean;
-}
-
-const Topbar: React.FC<TopbarProps> = ({ toggleTheme, darkMode }) => {
+const Topbar = () => {
     const theme = useTheme();
+    const { darkMode, toggleTheme } = useCustomTheme();
 
     return (
         <AppBar

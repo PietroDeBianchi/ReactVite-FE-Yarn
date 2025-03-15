@@ -1,19 +1,17 @@
 import { UseAuth } from '../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
 import { CircularProgress, Box, Container, Stack, useTheme } from '@mui/material';
-import Sidebar from '../components/Sidebar';
-import Topbar from '../components/Topbar';
+import Sidebar from '../components/sidebar/Sidebar';
+import Topbar from '../components/topbar/Topbar';
 
 type PrivateRouteProps = {
     allowedRoles: string[];
-    darkMode: boolean;
-    toggleTheme: () => void;
 };
 
-const PrivateRoute = ({ allowedRoles, darkMode, toggleTheme }: PrivateRouteProps) => {
+const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     const { user, hasCookie, isLoading } = UseAuth();
-        const theme = useTheme();
-    
+    const theme = useTheme();
+
     if (!user && !hasCookie) {
         return <Navigate to='/' />;
     }
@@ -51,7 +49,7 @@ const PrivateRoute = ({ allowedRoles, darkMode, toggleTheme }: PrivateRouteProps
                 }}
             >
                 {/* Topbar */}
-                <Topbar toggleTheme={toggleTheme} darkMode={darkMode}  />
+                <Topbar />
                 {/* Page content */}
                 <Stack
                     sx={{
@@ -60,7 +58,6 @@ const PrivateRoute = ({ allowedRoles, darkMode, toggleTheme }: PrivateRouteProps
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: theme.palette.background.paper,
-
                     }}
                 >
                     <Container>

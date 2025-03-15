@@ -1,19 +1,25 @@
-import './styles/global.css';
-import { useState } from 'react';
-import { ThemeProvider } from '@mui/material';
-import { lightTheme, darkTheme } from './theme/theme';
-import AppRouter from './router/Router';
-import { AuthProvider } from './context/AuthContext';
+import "./styles/global.css";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { lightTheme, darkTheme } from "./theme/theme";
+import AppRouter from "./router/Router";
+import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider, useCustomTheme } from "./context/ThemeContext";
+
+function ThemedApp() {
+    const { darkMode } = useCustomTheme();
+    return (
+        <MuiThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+            <AuthProvider>
+                <AppRouter />
+            </AuthProvider>
+        </MuiThemeProvider>
+    );
+}
 
 function App() {
-    // Stato per la modalità scura/chiara
-    const [darkMode, setDarkMode] = useState(false);
-    const toggleTheme = () => setDarkMode((prev) => !prev);
     return (
-        <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-            <AuthProvider>
-                <AppRouter toggleTheme={toggleTheme} darkMode={darkMode} />
-            </AuthProvider>
+        <ThemeProvider>
+            <ThemedApp />
         </ThemeProvider>
     );
 }

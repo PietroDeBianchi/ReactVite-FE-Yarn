@@ -1,12 +1,11 @@
+import { useCustomTheme } from '../context/ThemeContext';
 import { Outlet } from 'react-router-dom';
 import { Box, IconButton } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
-type PrivateRouteProps = {
-    darkMode: boolean;
-    toggleTheme: () => void;
-};
 
-const PrivateRoute = ({ darkMode, toggleTheme }: PrivateRouteProps) => {
+const PrivateRoute = () => {
+    const { darkMode, toggleTheme } = useCustomTheme();
+
     return (
         <Box
             sx={{
