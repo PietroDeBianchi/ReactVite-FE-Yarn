@@ -1,9 +1,9 @@
-import { useCustomTheme } from '../context/ThemeContext';
+import { useCustomTheme } from '../../context/ThemeContext';
 import { Outlet } from 'react-router-dom';
 import { Box, IconButton } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 
-const PrivateRoute = () => {
+const PublicRoute = () => {
     const { darkMode, toggleTheme } = useCustomTheme();
 
     return (
@@ -30,4 +30,4 @@ const PrivateRoute = () => {
     );
 };
 
-export default PrivateRoute;
+export default PublicRoute;

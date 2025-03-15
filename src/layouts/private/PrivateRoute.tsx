@@ -1,8 +1,8 @@
-import { UseAuth } from '../context/AuthContext';
+import { UseAuth } from '../../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
 import { CircularProgress, Box, Container, Stack, useTheme } from '@mui/material';
-import Sidebar from '../components/sidebar/Sidebar';
-import Topbar from '../components/topbar/Topbar';
+import Sidebar from '../../components/sidebar/Sidebar';
+import Topbar from '../../components/topbar/Topbar';
 
 type PrivateRouteProps = {
     allowedRoles: string[];

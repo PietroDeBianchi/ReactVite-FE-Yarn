@@ -1,9 +1,9 @@
-import "./styles/global.css";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { lightTheme, darkTheme } from "./theme/theme";
 import AppRouter from "./router/Router";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider, useCustomTheme } from "./context/ThemeContext";
+import "./styles/global.css";
 
 function ThemedApp() {
     const { darkMode } = useCustomTheme();

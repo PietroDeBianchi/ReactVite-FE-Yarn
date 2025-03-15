@@ -53,13 +53,13 @@ const Dashboard = () => {
                 </Typography>
 
                 {/* Buttons Section */}
-                <Stack direction='row' spacing={2} sx={{ mt: 3 }}>
+                <Stack direction='row' justifyContent='center' spacing={2} sx={{ mt: 3 }}>
                     {/* Profile Button */}
                     <Button
                         variant='contained'
                         color='primary'
                         sx={{
-                            flex: 1,
+                            flex: 0.2,
                             textTransform: 'none',
                             fontSize: '1rem',
                             py: 1.3,
@@ -72,31 +72,6 @@ const Dashboard = () => {
                         onClick={() => navigate('/profile')}
                     >
                         Go to Profile
-                    </Button>
-
-                    {/* Logout Button */}
-                    <Button
-                        variant='outlined'
-                        color='error'
-                        sx={{
-                            flex: 1,
-                            textTransform: 'none',
-                            fontSize: '1rem',
-                            py: 1.3,
-                            borderRadius: 2,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: 1,
-                            transition: '0.3s',
-                            '&:hover': {
-                                backgroundColor: theme.palette.error.light + '22',
-                            },
-                        }}
-                        onClick={handleLogout}
-                    >
-                        <Logout fontSize='small' />
-                        Logout
                     </Button>
                 </Stack>
             </CardContent>
