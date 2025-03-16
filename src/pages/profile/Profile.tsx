@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../../context/AuthContext';
-import { Typography, TextField, Button, Box, Card, CardContent, Avatar, Snackbar, Alert, useTheme } from '@mui/material';
+import { Typography, TextField, Button, Box, Card, CardContent, Avatar, Snackbar, Alert, useTheme, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -139,49 +139,48 @@ const Profile = () => {
                             error={!!errors.phone}
                             helperText={errors.phone?.message}
                         />
+                        <Stack direction='row' alignItems='center' justifyContent='space-around' gap={4} mt={4}>
+                            {/* Bottone Submit */}
+                            <Button
+                                fullWidth
+                                variant='contained'
+                                color='primary'
+                                sx={{
+                                    textTransform: 'none',
+                                    fontSize: '1rem',
+                                    py: 1.2,
+                                    borderRadius: 2,
+                                    transition: '0.3s',
+                                    '&:hover': {
+                                        backgroundColor: theme.palette.primary.dark,
+                                    },
+                                }}
+                                type='submit'
+                            >
+                                Save Changes
+                            </Button>
 
-                        {/* Bottone Submit */}
-                        <Button
-                            fullWidth
-                            variant='contained'
-                            color='primary'
-                            sx={{
-                                mt: 3,
-                                textTransform: 'none',
-                                fontSize: '1rem',
-                                py: 1.2,
-                                borderRadius: 2,
-                                transition: '0.3s',
-                                '&:hover': {
-                                    backgroundColor: theme.palette.primary.dark,
-                                },
-                            }}
-                            type='submit'
-                        >
-                            Save Changes
-                        </Button>
-
-                        {/* Torna alla Dashboard */}
-                        <Button
-                            fullWidth
-                            variant='outlined'
-                            color='inherit'
-                            sx={{
-                                mt: 2,
-                                color: theme.palette.text.primary,
-                                textTransform: 'none',
-                                fontSize: '1rem',
-                                py: 1.2,
-                                borderRadius: 2,
-                                transition: '0.3s',
-                                '&:hover': {
-                                    backgroundColor: theme.palette.primary.dark + '22',
-                                },
-                            }}
-                            onClick={() => navigate('/dashboard')}
-                        >
-                            Back to Dashboard
-                        </Button>
+                            {/* Torna alla Dashboard */}
+                            <Button
+                                fullWidth
+                                variant='outlined'
+                                color='inherit'
+                                sx={{
+                                    color: theme.palette.text.primary,
+                                    textTransform: 'none',
+                                    fontSize: '1rem',
+                                    py: 1.2,
+                                    borderRadius: 2,
+                                    transition: '0.3s',
+                                    '&:hover': {
+                                        backgroundColor: theme.palette.primary.dark + '22',
+                                    },
+                                }}
+                                onClick={() => navigate('/dashboard')}
+                            >
+                                Back to Dashboard
+                            </Button>
+                        </Stack>
                     </form>
                 </CardContent>
             </Card>
@@ -198,8 +197,6 @@ const Profile = () => {
                     severity={error ? 'error' : 'success'}
                     sx={{
                         width: '100%',
-                        backgroundColor: error ? theme.palette.error.light : theme.palette.success.light,
-                        color: theme.palette.mode === 'light' ? 'black' : 'white',
                     }}
                 >
                     {error || message}

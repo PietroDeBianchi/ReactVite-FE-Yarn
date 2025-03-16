@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { List, ListItem, ListItemIcon, ListItemText, Avatar, useTheme, Box, Link } from '@mui/material';
+import { List, ListItem, ListItemIcon, ListItemText, Avatar, useTheme, Box } from '@mui/material';
 import { Dashboard, AccountCircle, Logout } from '@mui/icons-material';
 import { UseAuth } from '../../context/AuthContext';
 

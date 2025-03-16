@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [hasCookie, setHasCookie] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    
     const fetchUser = async () => {
         if (!hasAuthToken()) {
             setIsLoading(false);

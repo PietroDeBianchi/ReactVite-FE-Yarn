@@ -3,6 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { CircularProgress, Box, Container, Stack, useTheme } from '@mui/material';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Topbar from '../../components/topbar/Topbar';
+import { use } from 'react';
 
 type PrivateRouteProps = {
     allowedRoles: string[];
@@ -11,13 +12,6 @@ type PrivateRouteProps = {
 const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     const { user, hasCookie, isLoading } = UseAuth();
     const theme = useTheme();
-
-    if (!user && !hasCookie) {
-        return <Navigate to='/' />;
-    }
-    if (user ? !user.roles?.split(',').some((role) => allowedRoles.includes(role)) : false && !hasCookie) {
-        return <Navigate to='/' />;
-    }
     if (isLoading) {
         return (
             <Box
@@ -32,6 +26,12 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
             </Box>
         );
     }
+    if (!user || !hasCookie) {
+        return <Navigate to='/' />;
+    }
+    if (user ? !user.roles?.split(',').some((role) => allowedRoles.includes(role)): true) {
+        return <Navigate to='/' />;
+    }
     return (
         <Box
             sx={{
@@ -40,7 +40,7 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
             }}
         >
             {/* Sidebar */}
-            <Sidebar />
+            {/* <Sidebar /> */}
             <Box
                 sx={{
                     flexGrow: 1,

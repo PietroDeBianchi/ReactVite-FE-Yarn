@@ -228,7 +228,7 @@ const Register = () => {
                         {/* Login Redirect */}
                         <Typography variant='body2' sx={{ mt: 2, textAlign: 'center' }} color='text.secondary'>
                             Already have an account?{' '}
-                            <Link to='/' style={{ textDecoration: 'none', color: theme.palette.text.primary }}>
+                            <Link to='/' style={{ textDecoration: 'none', color: theme.palette.primary.dark }}>
                                 Login
                             </Link>
                         </Typography>

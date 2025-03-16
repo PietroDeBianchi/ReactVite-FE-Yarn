@@ -1,10 +1,44 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UseAuth } from '../../context/AuthContext';
 import { useCustomTheme } from '../../context/ThemeContext';
-import { AppBar, Toolbar, Typography, IconButton, useTheme } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    IconButton,
+    useTheme,
+    Box,
+    MenuItem,
+    Menu,
+} from '@mui/material';
+import {
+    AccountCircle,
+    Brightness4,
+    Brightness7,
+    Logout,
+    Menu as MenuIcon,
+} from '@mui/icons-material';
 
 const Topbar = () => {
+    const navigate = useNavigate();
     const theme = useTheme();
+    const { logout } = UseAuth();
     const { darkMode, toggleTheme } = useCustomTheme();
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const open = Boolean(anchorEl);
+
+    const handleMenuOpen = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+    const handleNavigation = (path: any) => {
+        navigate(path);
+        handleMenuClose();
+    };
 
     return (
         <AppBar
@@ -19,14 +53,40 @@ const Topbar = () => {
         >
             <Toolbar>
                 {/* Titolo */}
-                <Typography variant='h6' sx={{ flexGrow: 1 }}>
+                <Typography variant='h6' sx={{ flexGrow: 1 }} onClick={() => handleNavigation('/dashboard')}>
                     Admin Panel
                 </Typography>
 
-                {/* Switch Light/Dark Mode */}
-                <IconButton onClick={toggleTheme} color='inherit'>
-                    {darkMode ? <Brightness7 /> : <Brightness4 />}
-                </IconButton>
+                {/* Logo o Avatar */}
+                <Box sx={{ mb: 2 }}>
+                    {/* Menu di navigazione */}
+                    <IconButton onClick={handleMenuOpen} sx={{ color: theme.palette.text.primary }}>
+                        <MenuIcon />
+                    </IconButton>
+                    <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+                        <MenuItem onClick={() => handleNavigation('/profile')}>
+                            <AccountCircle sx={{ mr: 1, color: theme.palette.text.primary }} />
+                            Profile
+                        </MenuItem>
+                        <MenuItem onClick={toggleTheme}>
+                            {darkMode ? (
+                                <Brightness7 sx={{ mr: 1, color: theme.palette.text.primary }} />
+                            ) : (
+                                <Brightness4 sx={{ mr: 1, color: theme.palette.text.primary }} />
+                            )}
+                            Theme
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                logout();
+                                handleNavigation('/');
+                            }}
+                        >
+                            <Logout sx={{ mr: 1, color: theme.palette.text.primary }} />
+                            Logout
+                        </MenuItem>
+                    </Menu>
+                </Box>
             </Toolbar>
         </AppBar>
     );
