@@ -13,9 +13,9 @@ const lightPalette: ThemeOptions = {
             secondary: "#4B5563", // Grigio medio bilanciato
         },
         primary: {
-            main: "#D0E2F2", 
-            light: "#0C2130",
-            dark: "#0C2130",
+            main: "#146AFF", 
+            light: "#1808FF",
+            dark: "#205681",
         },
         secondary: {
             main: "#FF6F61",

@@ -22,7 +22,7 @@ const Dashboard = () => {
             </Avatar>
 
             {/* Welcome Message */}
-            <Typography variant='h4' fontWeight='bold' color='primary' sx={{ mt: 2 }}>
+            <Typography variant='h4' fontWeight='bold' color='primary.dark' sx={{ mt: 2 }}>
                 Welcome, {user?.firstName}!
             </Typography>
 
