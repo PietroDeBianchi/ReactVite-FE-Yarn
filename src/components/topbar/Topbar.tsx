@@ -36,8 +36,8 @@ const Topbar = () => {
         setAnchorEl(null);
     };
     const handleNavigation = (path: any) => {
-        navigate(path);
         handleMenuClose();
+        navigate(path);
     };
 
     return (
@@ -51,14 +51,14 @@ const Topbar = () => {
                 transition: 'background-color 0.3s ease-in-out',
             }}
         >
-            <Toolbar>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 {/* Titolo */}
-                <Typography variant='h6' sx={{ flexGrow: 1 }} onClick={() => handleNavigation('/dashboard')}>
+                <Typography variant='h6' onClick={() => handleNavigation('/dashboard')}>
                     Admin Panel
                 </Typography>
 
                 {/* Logo o Avatar */}
-                <Box sx={{ mb: 2 }}>
+                <Box>
                     {/* Menu di navigazione */}
                     <IconButton onClick={handleMenuOpen} sx={{ color: theme.palette.text.primary }}>
                         <MenuIcon />

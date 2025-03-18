@@ -1,12 +1,13 @@
-import api from "../axios";
+import api from "../api";
+import ApiResponse from "../../types/ApiResponse";
 
 //REGISTER
 export const register = async (userData: {email: string, password: string, firstName: string, lastName: string, phone: string | null}) => {
     try {
-        const response = await api.post(
+        const response = await api.post<ApiResponse>(
             "/auth/register",
             userData,
-        ); 
+        );
         return response.data;
     } catch (error: any) {
         console.error("Errore nella Registrazione", error);
@@ -17,9 +18,9 @@ export const register = async (userData: {email: string, password: string, first
 //LOGIN
 export const login = async (email: string, password: string) => {
     try {
-        const response = await api.post(
+        const response = await api.post<ApiResponse>(
             "/auth/login",
-            { email, password},
+            { email, password },
         );
         return response.data;
     } catch (error: any) {
@@ -31,7 +32,7 @@ export const login = async (email: string, password: string) => {
 //GETME
 export const getMe = async () => {
     try {
-        const response = await api.get("/auth/me");
+        const response = await api.get<ApiResponse>("/auth/me");
         return response.data;
     } catch (error: any) {
         console.error("Errore nel recupero utente", error);

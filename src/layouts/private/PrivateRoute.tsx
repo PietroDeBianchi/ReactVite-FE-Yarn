@@ -29,7 +29,7 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     if (!user || !hasCookie) {
         return <Navigate to='/' />;
     }
-    if (user ? !user.roles?.split(',').some((role) => allowedRoles.includes(role)): true) {
+    if (user ? !user.roles?.split(',').some((role) => allowedRoles.includes(role)) : true) {
         return <Navigate to='/' />;
     }
     return (
@@ -60,9 +60,7 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
                         backgroundColor: theme.palette.background.paper,
                     }}
                 >
-                    <Container>
-                        <Outlet /> {/* This will render the current page */}
-                    </Container>
+                    <Outlet /> {/* This will render the current page */}
                 </Stack>
             </Box>
         </Box>

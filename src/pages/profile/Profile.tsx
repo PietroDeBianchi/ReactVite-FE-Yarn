@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../../context/AuthContext';
-import { Typography, TextField, Button, Box, Card, CardContent, Avatar, Snackbar, Alert, useTheme, Stack } from '@mui/material';
+import CustomCard from '../../components/customCard/CustomCard';
+import {
+    Typography,
+    TextField,
+    Button,
+    Avatar,
+    Snackbar,
+    Alert,
+    useTheme,
+    Stack,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,7 +35,7 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 const Profile = () => {
     const { user } = UseAuth();
     const navigate = useNavigate();
-    const theme = useTheme(); // Hook per usare il tema
+    const theme = useTheme();
 
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
@@ -68,122 +78,117 @@ const Profile = () => {
 
     return (
         <>
-            <Card
-                sx={{
-                    p: 3,
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    textAlign: 'center',
-                    backdropFilter: 'blur(10px)',
-                    backgroundColor: theme.palette.background.paper,
-                }}
-            >
-                <CardContent>
-                    {/* User Avatar */}
-                    <Avatar
-                        sx={{
-                            width: 80,
-                            height: 80,
-                            margin: '0 auto',
-                            bgcolor: theme.palette.primary.dark,
-                            fontSize: '2rem',
-                        }}
+            <CustomCard>
+                {/* User Avatar */}
+                <Avatar
+                    sx={{
+                        width: 80,
+                        height: 80,
+                        margin: '0 auto',
+                        bgcolor: theme.palette.primary.dark,
+                        fontSize: '2rem',
+                    }}
+                >
+                    {user?.firstName?.charAt(0).toUpperCase()}
+                </Avatar>
+
+                {/* Titolo */}
+                <Typography variant='h4' fontWeight='bold' color='primary' sx={{ mt: 2 }}>
+                    User Profile
+                </Typography>
+                <Typography variant='body1' color='text.secondary' sx={{ mb: 3 }}>
+                    Edit your personal details
+                </Typography>
+
+                {/* Form Profilo */}
+                <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+                    <TextField
+                        fullWidth
+                        label='First Name'
+                        variant='outlined'
+                        margin='normal'
+                        {...register('firstName')}
+                        error={!!errors.firstName}
+                        helperText={errors.firstName?.message}
+                    />
+                    <TextField
+                        fullWidth
+                        label='Last Name'
+                        variant='outlined'
+                        margin='normal'
+                        {...register('lastName')}
+                        error={!!errors.lastName}
+                        helperText={errors.lastName?.message}
+                    />
+                    <TextField
+                        fullWidth
+                        label='Email'
+                        type='email'
+                        variant='outlined'
+                        margin='normal'
+                        {...register('email')}
+                        error={!!errors.email}
+                        helperText={errors.email?.message}
+                    />
+                    <TextField
+                        fullWidth
+                        label='Phone'
+                        variant='outlined'
+                        margin='normal'
+                        {...register('phone')}
+                        error={!!errors.phone}
+                        helperText={errors.phone?.message}
+                    />
+                    <Stack
+                        direction='row'
+                        alignItems='center'
+                        justifyContent='space-around'
+                        gap={4}
+                        mt={4}
                     >
-                        {user?.firstName?.charAt(0).toUpperCase()}
-                    </Avatar>
+                        {/* Bottone Submit */}
+                        <Button
+                            fullWidth
+                            variant='contained'
+                            color='primary'
+                            sx={{
+                                textTransform: 'none',
+                                fontSize: '1rem',
+                                py: 1.2,
+                                borderRadius: 2,
+                                transition: '0.3s',
+                                '&:hover': {
+                                    backgroundColor: theme.palette.primary.dark,
+                                },
+                            }}
+                            type='submit'
+                        >
+                            Save Changes
+                        </Button>
 
-                    {/* Titolo */}
-                    <Typography variant='h4' fontWeight='bold' color='primary' sx={{ mt: 2 }}>
-                        User Profile
-                    </Typography>
-                    <Typography variant='body1' color='text.secondary' sx={{ mb: 3 }}>
-                        Edit your personal details
-                    </Typography>
-
-                    {/* Form Profilo */}
-                    <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
-                        <TextField
+                        {/* Torna alla Dashboard */}
+                        <Button
                             fullWidth
-                            label='First Name'
                             variant='outlined'
-                            margin='normal'
-                            {...register('firstName')}
-                            error={!!errors.firstName}
-                            helperText={errors.firstName?.message}
-                        />
-                        <TextField
-                            fullWidth
-                            label='Last Name'
-                            variant='outlined'
-                            margin='normal'
-                            {...register('lastName')}
-                            error={!!errors.lastName}
-                            helperText={errors.lastName?.message}
-                        />
-                        <TextField
-                            fullWidth
-                            label='Email'
-                            type='email'
-                            variant='outlined'
-                            margin='normal'
-                            {...register('email')}
-                            error={!!errors.email}
-                            helperText={errors.email?.message}
-                        />
-                        <TextField
-                            fullWidth
-                            label='Phone'
-                            variant='outlined'
-                            margin='normal'
-                            {...register('phone')}
-                            error={!!errors.phone}
-                            helperText={errors.phone?.message}
-                        />
-                        <Stack direction='row' alignItems='center' justifyContent='space-around' gap={4} mt={4}>
-                            {/* Bottone Submit */}
-                            <Button
-                                fullWidth
-                                variant='contained'
-                                color='primary'
-                                sx={{
-                                    textTransform: 'none',
-                                    fontSize: '1rem',
-                                    py: 1.2,
-                                    borderRadius: 2,
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        backgroundColor: theme.palette.primary.dark,
-                                    },
-                                }}
-                                type='submit'
-                            >
-                                Save Changes
-                            </Button>
-
-                            {/* Torna alla Dashboard */}
-                            <Button
-                                fullWidth
-                                variant='outlined'
-                                color='inherit'
-                                sx={{
-                                    color: theme.palette.text.primary,
-                                    textTransform: 'none',
-                                    fontSize: '1rem',
-                                    py: 1.2,
-                                    borderRadius: 2,
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        backgroundColor: theme.palette.primary.dark + '22',
-                                    },
-                                }}
-                                onClick={() => navigate('/dashboard')}
-                            >
-                                Back to Dashboard
-                            </Button>
-                        </Stack>
-                    </form>
-                </CardContent>
-            </Card>
+                            color='inherit'
+                            sx={{
+                                color: theme.palette.text.primary,
+                                textTransform: 'none',
+                                fontSize: '1rem',
+                                py: 1.2,
+                                borderRadius: 2,
+                                transition: '0.3s',
+                                '&:hover': {
+                                    backgroundColor: theme.palette.primary.dark + '22',
+                                },
+                            }}
+                            onClick={() => navigate('/dashboard')}
+                        >
+                            Back to Dashboard
+                        </Button>
+                    </Stack>
+                </form>
+            </CustomCard>
 
             {/* Snackbar per Notifiche */}
             <Snackbar
