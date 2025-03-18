@@ -1,38 +1,38 @@
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 
-// Palette Light Mode
+// Palette Light Mode ottimizzata per maggiore contrasto
 const lightPalette: ThemeOptions = {
     palette: {
         mode: "light",
         background: {
-            default: "#F4F7F6",  // Bianco sporco moderno
-            paper: "#FFFFFF",    // Bianco puro e pulito
+            default: "#E8EFF1", // Sfondo più delicato per migliore contrasto
+            paper: "#FFFFFF",   // Bianco puro per chiarezza massima
         },
         text: {
-            primary: "#1F2937",  // Grigio scuro, quasi antracite
-            secondary: "#4B5563", // Grigio medio
+            primary: "#112D3C",   // Blu scuro intenso per alto contrasto
+            secondary: "#4B5563", // Grigio medio bilanciato
         },
         primary: {
-            main: "#6BCB77",  // Verde menta fresco
-            light: "#90D7A0",
-            dark: "#4EA461",
+            main: "#D0E2F2", 
+            light: "#0C2130",
+            dark: "#0C2130",
         },
         secondary: {
-            main: "#FF6F61",  // Corallo vibrante
+            main: "#FF6F61",
             light: "#FF998A",
             dark: "#E55B50",
         },
         success: {
-            main: "#2ECC71",  // Verde vivace e positivo
+            main: "#28B463",  // Verde vivace, leggermente più scuro
         },
         warning: {
-            main: "#F1C40F",  // Giallo dorato moderno
+            main: "#F39C12",  // Arancione dorato per avvisi più visibili
         },
         error: {
             main: "#E74C3C",  // Rosso acceso per gli errori
         },
         info: {
-            main: "#3498DB",  // Blu brillante per le informazioni
+            main: "#3498DB",  // Blu brillante per informazioni
         },
     },
 };
