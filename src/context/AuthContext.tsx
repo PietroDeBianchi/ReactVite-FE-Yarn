@@ -9,19 +9,33 @@ import Cookies from "js-cookie";
 import { getMe, login } from "../services/api/auth";
 import User from "../types/User";
 
-const hasAuthToken = () => {
-    const token = Cookies.get("token");
-    return token && token.trim() !== "";
-};
+// Types
+interface LoginResponse {
+    success: boolean;
+    error?: string;
+}
 
-// Context Type
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
+    isAuthenticating: boolean;
     hasCookie: boolean;
-    login: (email: string, password: string) => Promise<any>;
+    login: (email: string, password: string) => Promise<LoginResponse>;
     logout: () => void;
 }
+
+// Token Management
+const TOKEN_KEY = "token";
+
+const tokenManager = {
+    getToken: () => Cookies.get(TOKEN_KEY),
+    setToken: (token: string) => Cookies.set(TOKEN_KEY, token),
+    removeToken: () => Cookies.remove(TOKEN_KEY),
+    hasToken: () => {
+        const token = tokenManager.getToken();
+        return token && token.trim() !== "";
+    },
+};
 
 // Context Create
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,9 +45,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [hasCookie, setHasCookie] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isAuthenticating, setIsAuthenticating] = useState(false);
     
     const fetchUser = async () => {
-        if (!hasAuthToken()) {
+        if (!tokenManager.hasToken()) {
             setIsLoading(false);
             return;
         }
@@ -44,33 +59,49 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setHasCookie(true);
             }
         } catch (error) {
+            if (error instanceof Error) {
+                console.error("Authentication error:", error.message);
+            }
             setUser(null);
             setHasCookie(false);
-            Cookies.remove("token");
+            tokenManager.removeToken();
         } finally {
             setIsLoading(false);
         }
     };
-    const handleLogin = async (email: string, password: string) => {
-        const response = await login(email, password);
-        if (response?.success) {
-            await fetchUser();
+
+    const handleLogin = async (email: string, password: string): Promise<LoginResponse> => {
+        setIsAuthenticating(true);
+        try {
+            const response = await login(email, password);
+            if (response?.success) {
+                await fetchUser();
+            }
+            return response;
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+            return { success: false, error: errorMessage };
+        } finally {
+            setIsAuthenticating(false);
         }
-        return response;
     };
+
     const handleLogout = () => {
-        Cookies.remove("token");
+        tokenManager.removeToken();
         setUser(null);
         setHasCookie(false);
     };
+
     useEffect(() => {
         fetchUser();
     }, []);
+
     return (
         <AuthContext.Provider
             value={{
                 user,
                 isLoading,
+                isAuthenticating,
                 hasCookie,
                 login: handleLogin,
                 logout: handleLogout,
@@ -86,7 +117,7 @@ export const UseAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
         throw new Error(
-            "UseAuth deve essere utilizzato all'interno di un AuthProvider"
+            "UseAuth must be used within an AuthProvider"
         );
     }
     return context;

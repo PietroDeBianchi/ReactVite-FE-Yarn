@@ -11,6 +11,7 @@ import {
     Alert,
     useTheme,
     Stack,
+    Chip,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -96,9 +97,15 @@ const Profile = () => {
                 <Typography variant='h4' fontWeight='bold' color='primary' sx={{ mt: 2 }}>
                     User Profile
                 </Typography>
-                <Typography variant='body1' color='text.secondary' sx={{ mb: 3 }}>
+                <Typography variant='body1' color='text.secondary'>
                     Edit your personal details
                 </Typography>
+                <Chip
+                    label={user?.roles === 'admin' ? 'Admin' : 'User'}
+                    color={user?.roles === 'admin' ? 'primary' : 'default'}
+                    size='small'
+                    sx={{ my: 2 }}
+                />
 
                 {/* Form Profilo */}
                 <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>

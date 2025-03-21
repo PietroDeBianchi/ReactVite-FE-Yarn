@@ -1,75 +1,75 @@
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 
-// Palette Light Mode ottimizzata per maggiore contrasto
+// Palette Light Mode ottimizzata per maggiore contrasto e comfort visivo
 const lightPalette: ThemeOptions = {
     palette: {
         mode: "light",
         background: {
-            default: "#E8EFF1", // Sfondo più delicato per migliore contrasto
+            default: "#F5F7FA", // Sfondo leggermente più caldo e confortevole
             paper: "#FFFFFF",   // Bianco puro per chiarezza massima
         },
         text: {
-            primary: "#112D3C",   // Blu scuro intenso per alto contrasto
-            secondary: "#4B5563", // Grigio medio bilanciato
+            primary: "#1A2B3C",   // Blu scuro più ricco per migliore leggibilità
+            secondary: "#4A5568", // Grigio più scuro per migliore contrasto
         },
         primary: {
-            main: "#146AFF", 
-            light: "#1808FF",
-            dark: "#205681",
+            main: "#2563EB",     // Blu più morbido ma ancora vivace
+            light: "#3B82F6",
+            dark: "#1D4ED8",
         },
         secondary: {
-            main: "#FF6F61",
-            light: "#FF998A",
-            dark: "#E55B50",
+            main: "#E85D5D",     // Coral più morbido e armonioso
+            light: "#F87171",
+            dark: "#DC2626",
         },
         success: {
-            main: "#28B463",  // Verde vivace, leggermente più scuro
+            main: "#059669",     // Verde più professionale
         },
         warning: {
-            main: "#F39C12",  // Arancione dorato per avvisi più visibili
+            main: "#D97706",     // Arancione più caldo e meno acuto
         },
         error: {
-            main: "#E74C3C",  // Rosso acceso per gli errori
+            main: "#DC2626",     // Rosso più sofisticato
         },
         info: {
-            main: "#3498DB",  // Blu brillante per informazioni
+            main: "#0284C7",     // Blu più profondo per le informazioni
         },
     },
 };
 
-// Palette Dark Mode
+// Palette Dark Mode ottimizzata per comfort visivo e contrasto
 const darkPalette: ThemeOptions = {
     palette: {
         mode: "dark",
         background: {
-            default: "#0C2130",  // Navy profondo
-            paper: "#112D3C",    // Blu notte leggermente più chiaro
+            default: "#0A1929",  // Blu notte più profondo
+            paper: "#132F4C",    // Blu notte più chiaro per migliore contrasto
         },
         text: {
-            primary: "#D0E2F2",  // Blu pallido per un contrasto morbido
-            secondary: "#A0B4C6", // Tonalità grigio-bluata
+            primary: "#E2E8F0",  // Grigio-blu chiaro per migliore leggibilità
+            secondary: "#94A3B8", // Grigio più neutro per testo secondario
         },
         primary: {
-            main: "#A8FF9A",  // Neon green per un accento vivace
-            light: "#B8FFB8",
-            dark: "#8AD88A",
+            main: "#4ADE80",     // Verde menta più morbido
+            light: "#6EE7B7",
+            dark: "#059669",
         },
         secondary: {
-            main: "#044737",  // Verde scuro elegante
-            light: "#0A6E52",
-            dark: "#022F22",
+            main: "#065F46",     // Verde scuro più visibile
+            light: "#047857",
+            dark: "#064E3B",
         },
         success: {
-            main: "#36D7B7",  // Turchese fresco per successi
+            main: "#10B981",     // Verde più vivace ma non acuto
         },
         warning: {
-            main: "#FFC107",  // Ambra luminosa per i warning
+            main: "#F59E0B",     // Ambra più calda
         },
         error: {
-            main: "#FF5252",  // Rosso intenso per gli errori
+            main: "#EF4444",     // Rosso più brillante ma non accecante
         },
         info: {
-            main: "#29B6F6",  // Blu chiaro per le informazioni
+            main: "#3B82F6",     // Blu più luminoso per le informazioni
         },
     },
 };

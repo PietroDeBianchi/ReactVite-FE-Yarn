@@ -1,6 +1,6 @@
 import { UseAuth } from '../../context/AuthContext';
 import CustomCard from '../../components/customCard/CustomCard';
-import { Typography, Avatar, Chip, useTheme } from '@mui/material';
+import { Typography, Avatar, useTheme } from '@mui/material';
 
 const Dashboard = () => {
     const { user } = UseAuth();
@@ -25,13 +25,6 @@ const Dashboard = () => {
             <Typography variant='h4' fontWeight='bold' color='primary.dark' sx={{ mt: 2 }}>
                 Welcome, {user?.firstName}!
             </Typography>
-
-            {/* User Role Chip */}
-            <Chip
-                label={user?.roles === 'admin' ? 'Admin' : 'User'}
-                color={user?.roles === 'admin' ? 'primary' : 'default'}
-                sx={{ mt: 1 }}
-            />
 
             {/* Description */}
             <Typography variant='body1' color='text.secondary' sx={{ mt: 2 }}>

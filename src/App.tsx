@@ -3,7 +3,6 @@ import { lightTheme, darkTheme } from './theme/theme';
 import AppRouter from './router/Router';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider, useCustomTheme } from './context/ThemeContext';
-import './styles/global.css';
 
 function ThemedApp() {
     const { darkMode } = useCustomTheme();

@@ -1,5 +1,5 @@
 {
-  "name": "reactVite-ferly-fe",
+  "name": "reactvite-template-fe",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,8 +13,9 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@hookform/resolvers": "^4.1.2",
-    "@mui/icons-material": "^6.4.6",
+    "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.6",
+    "@mui/x-data-grid": "^7.28.1",
     "axios": "^1.8.1",
     "js-cookie": "^3.0.5",
     "react": "^19.0.0",

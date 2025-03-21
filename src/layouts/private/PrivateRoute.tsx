@@ -1,9 +1,9 @@
 import { UseAuth } from '../../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
-import { CircularProgress, Box, Container, Stack, useTheme } from '@mui/material';
-import Sidebar from '../../components/sidebar/Sidebar';
+import { CircularProgress, Box, Stack, useTheme } from '@mui/material';
+//import Sidebar from '../../components/sidebar/Sidebar';
 import Topbar from '../../components/topbar/Topbar';
-import { use } from 'react';
+import { Role } from '../../types/User';
 
 type PrivateRouteProps = {
     allowedRoles: string[];
@@ -29,7 +29,7 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     if (!user || !hasCookie) {
         return <Navigate to='/' />;
     }
-    if (user ? !user.roles?.split(',').some((role) => allowedRoles.includes(role)) : true) {
+    if (user ? !allowedRoles.includes(user.roles as Role) : true) {
         return <Navigate to='/' />;
     }
     return (
