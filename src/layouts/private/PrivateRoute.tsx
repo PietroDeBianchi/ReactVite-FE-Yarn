@@ -1,6 +1,6 @@
 import { UseAuth } from '../../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
-import { CircularProgress, Box, Stack, useTheme } from '@mui/material';
+import { CircularProgress, Box, Stack, useTheme, Container } from '@mui/material';
 //import Sidebar from '../../components/sidebar/Sidebar';
 import Topbar from '../../components/topbar/Topbar';
 import { Role } from '../../types/User';
@@ -54,13 +54,16 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
                 <Stack
                     sx={{
                         flexGrow: 1,
-                        p: 3,
+                        py: 8,
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: theme.palette.background.paper,
                     }}
                 >
-                    <Outlet /> {/* This will render the current page */}
+                    <Container maxWidth='xl'>
+                        {/* This will render the current page */}
+                        <Outlet />
+                    </Container>
                 </Stack>
             </Box>
         </Box>

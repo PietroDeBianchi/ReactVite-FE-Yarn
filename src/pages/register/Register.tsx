@@ -13,6 +13,7 @@ import {
     InputAdornment,
     IconButton,
     useTheme,
+    Container,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import * as z from 'zod';
@@ -98,7 +99,8 @@ const Register = () => {
                 transition: 'background 0.3s ease-in-out',
             }}
         >
-                <CustomCard>
+            <Container maxWidth='sm'>
+                <CustomCard hover={false}>
                     {/* Titolo */}
                     <Box sx={{ textAlign: 'center', mb: 3 }}>
                         <Typography variant='h4' fontWeight='bold' color='primary'>
@@ -159,17 +161,19 @@ const Register = () => {
                             {...formRegister('password')}
                             error={!!errors.password}
                             helperText={errors.password?.message}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position='end'>
-                                        <IconButton
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            edge='end'
-                                        >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <IconButton
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                edge='end'
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                },
                             }}
                         />
 
@@ -183,23 +187,25 @@ const Register = () => {
                             {...formRegister('confirmPassword')}
                             error={!!errors.confirmPassword}
                             helperText={errors.confirmPassword?.message}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position='end'>
-                                        <IconButton
-                                            onClick={() =>
-                                                setShowConfirmPassword(!showConfirmPassword)
-                                            }
-                                            edge='end'
-                                        >
-                                            {showConfirmPassword ? (
-                                                <VisibilityOff />
-                                            ) : (
-                                                <Visibility />
-                                            )}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <IconButton
+                                                onClick={() =>
+                                                    setShowConfirmPassword(!showConfirmPassword)
+                                                }
+                                                edge='end'
+                                            >
+                                                {showConfirmPassword ? (
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                },
                             }}
                         />
 
@@ -241,21 +247,22 @@ const Register = () => {
                         </Link>
                     </Typography>
                 </CustomCard>
-            {/* Snackbar for Notifications */}
-            <Snackbar
-                open={openSnackbar}
-                autoHideDuration={4000}
-                onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            >
-                <Alert
+                {/* Snackbar for Notifications */}
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={4000}
                     onClose={() => setOpenSnackbar(false)}
-                    severity={error ? 'error' : 'success'}
-                    sx={{ width: '100%' }}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 >
-                    {error || message}
-                </Alert>
-            </Snackbar>
+                    <Alert
+                        onClose={() => setOpenSnackbar(false)}
+                        severity={error ? 'error' : 'success'}
+                        sx={{ width: '100%' }}
+                    >
+                        {error || message}
+                    </Alert>
+                </Snackbar>
+            </Container>
         </Box>
     );
 };

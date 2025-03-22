@@ -42,7 +42,6 @@ const Topbar = () => {
 
     return (
         <AppBar
-            position='sticky'
             sx={{
                 background: theme.palette.background.default,
                 color: theme.palette.text.primary,

@@ -8,19 +8,15 @@ import {
 import Cookies from "js-cookie";
 import { getMe, login } from "../services/api/auth";
 import User from "../types/User";
+import ApiResponse from "../types/ApiResponse";
 
 // Types
-interface LoginResponse {
-    success: boolean;
-    error?: string;
-}
-
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
     isAuthenticating: boolean;
     hasCookie: boolean;
-    login: (email: string, password: string) => Promise<LoginResponse>;
+    login: (email: string, password: string) => Promise<ApiResponse>;
     logout: () => void;
 }
 
@@ -70,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const handleLogin = async (email: string, password: string): Promise<LoginResponse> => {
+    const handleLogin = async (email: string, password: string): Promise<ApiResponse> => {
         setIsAuthenticating(true);
         try {
             const response = await login(email, password);
@@ -80,7 +76,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return response;
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-            return { success: false, error: errorMessage };
+            return { success: false, message: errorMessage, data: null };
         } finally {
             setIsAuthenticating(false);
         }

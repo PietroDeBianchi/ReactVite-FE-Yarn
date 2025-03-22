@@ -60,7 +60,7 @@ const Login = () => {
             }}
         >
             <Container maxWidth='sm'>
-                <CustomCard>
+                <CustomCard hover={false}>
                     {/* Titolo */}
                     <Box sx={{ textAlign: 'center', mb: 3 }}>
                         <Typography
