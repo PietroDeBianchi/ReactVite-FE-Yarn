@@ -55,6 +55,7 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
                     sx={{
                         flexGrow: 1,
                         py: 8,
+                        mt: 4,
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: theme.palette.background.paper,

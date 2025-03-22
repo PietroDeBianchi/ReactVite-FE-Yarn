@@ -12,6 +12,7 @@ import {
     useTheme,
     Stack,
     Chip,
+    Container,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -78,8 +79,8 @@ const Profile = () => {
     };
 
     return (
-        <>
-            <CustomCard>
+        <Container maxWidth='md'>
+            <CustomCard hover={false} sx={{ p: 4 }}>
                 {/* User Avatar */}
                 <Avatar
                     sx={{
@@ -214,7 +215,7 @@ const Profile = () => {
                     {error || message}
                 </Alert>
             </Snackbar>
-        </>
+        </Container>
     );
 };
 

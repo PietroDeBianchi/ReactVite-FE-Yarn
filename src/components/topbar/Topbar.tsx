@@ -52,8 +52,8 @@ const Topbar = () => {
         >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 {/* Titolo */}
-                <Typography variant='h6' onClick={() => handleNavigation('/dashboard')}>
-                    Admin Panel
+                <Typography variant='h4' color='primary' onClick={() => handleNavigation('/dashboard')}>
+                    A D A P T
                 </Typography>
 
                 {/* Logo o Avatar */}
