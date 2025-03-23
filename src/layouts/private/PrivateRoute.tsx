@@ -1,6 +1,6 @@
 import { UseAuth } from '../../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
-import { CircularProgress, Box, Stack, useTheme, Container } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Topbar from '../../components/topbar/Topbar';
 import { Role } from '../../types/User';
@@ -14,7 +14,6 @@ const sidebarWidth = '160px';
 
 const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     const { user, hasCookie, isLoading } = UseAuth();
-    const theme = useTheme();
     if (isLoading) {
         return (
             <Box
@@ -38,7 +37,7 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     return (
         <Box>
             {/* Topbar */}
-            <Topbar topbarHeight={topbarHeight} />
+            <Topbar sidebarWidth={sidebarWidth} topbarHeight={topbarHeight} />
             {/* Page content */}
             <Box
                 sx={{
@@ -51,7 +50,7 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
             >
                 {/* Topbar */}
                 <Sidebar sidebarWidth={sidebarWidth} topbarHeight={topbarHeight} />
-                <Box sx={{ ml: sidebarWidth, p: 8, flexGrow: 1 }}>
+                <Box sx={{ ml: sidebarWidth, flexGrow: 1, px: 6, py: 4 }}>
                     {/* This will render the current page */}
                     <Outlet />
                 </Box>

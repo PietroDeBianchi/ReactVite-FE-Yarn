@@ -1,21 +1,39 @@
 import { useNavigate } from 'react-router-dom';
-import { List, ListItem, ListItemIcon, ListItemText, Avatar, useTheme, Box } from '@mui/material';
+import {
+    Box,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import { Dashboard, AccountCircle, Logout } from '@mui/icons-material';
 import { UseAuth } from '../../context/AuthContext';
 
-const Sidebar = ({ sidebarWidth, topbarHeight }: { sidebarWidth: string, topbarHeight: string }) => {
-    const navigate = useNavigate();
+const Sidebar = ({
+    sidebarWidth,
+    topbarHeight,
+}: {
+    sidebarWidth: string;
+    topbarHeight: string;
+}) => {
     const theme = useTheme();
     const { logout } = UseAuth();
-    const logo = null;
+    const navigate = useNavigate();
+
+    const handleNavigation = (path: any) => {
+        navigate(path);
+    };
 
     return (
         <List
             sx={{
                 width: sidebarWidth,
                 position: 'fixed',
-                top: topbarHeight, // Compensate for the topbar height
+                top: 0, // Compensate for the topbar height
                 left: 0,
+                py: 0,
                 background: theme.palette.background.default,
                 transition: 'background-color 0.3s ease-in-out',
                 minHeight: '100%',
@@ -28,31 +46,25 @@ const Sidebar = ({ sidebarWidth, topbarHeight }: { sidebarWidth: string, topbarH
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    py: 2,
-                    mb:2,
+                    height: topbarHeight,
+                    mb: 2,
+                    px: 2,
                     borderBottom: `1px solid ${theme.palette.divider}`,
                 }}
             >
-                {logo ? (
-                    <Avatar src={logo} alt='Logo' sx={{ width: 80, height: 80 }} />
-                ) : (
-                    <Avatar
-                        sx={{
-                            width: 80,
-                            height: 80,
-                            bgcolor: theme.palette.primary.main,
-                            fontSize: '2rem',
-                        }}
-                    >
-                        A
-                    </Avatar>
-                )}
+                <Typography
+                    variant='h5'
+                    color='primary'
+                    onClick={() => handleNavigation('/dashboard')}
+                >
+                    A D A P T
+                </Typography>
             </Box>
             <ListItem onClick={() => navigate('/dashboard')}>
                 <ListItemIcon>
                     <Dashboard sx={{ color: theme.palette.text.primary }} />
                 </ListItemIcon>
-                <ListItemText primary='Dashboard' sx={{ color: theme.palette.text.primary }} />
+                <ListItemText primary='Dashboard' sx={{ color: theme.palette.text.primary, fontSize: '2px' }} />
             </ListItem>
             <ListItem onClick={() => navigate('/profile')}>
                 <ListItemIcon>
