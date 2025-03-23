@@ -79,7 +79,7 @@ const Profile = () => {
     };
 
     return (
-        <Container maxWidth='md'>
+        <Container maxWidth='sm'>
             <CustomCard hover={false} sx={{ p: 4 }}>
                 {/* User Avatar */}
                 <Avatar

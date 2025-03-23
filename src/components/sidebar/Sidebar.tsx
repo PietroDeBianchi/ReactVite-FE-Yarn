@@ -3,7 +3,7 @@ import { List, ListItem, ListItemIcon, ListItemText, Avatar, useTheme, Box } fro
 import { Dashboard, AccountCircle, Logout } from '@mui/icons-material';
 import { UseAuth } from '../../context/AuthContext';
 
-const Sidebar = () => {
+const Sidebar = ({ sidebarWidth, topbarHeight }: { sidebarWidth: string, topbarHeight: string }) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const { logout } = UseAuth();
@@ -12,9 +12,13 @@ const Sidebar = () => {
     return (
         <List
             sx={{
+                width: sidebarWidth,
+                position: 'fixed',
+                top: topbarHeight, // Compensate for the topbar height
+                left: 0,
                 background: theme.palette.background.default,
                 transition: 'background-color 0.3s ease-in-out',
-                minHeight: '100vh',
+                minHeight: '100%',
                 display: 'flex',
                 flexDirection: 'column',
             }}

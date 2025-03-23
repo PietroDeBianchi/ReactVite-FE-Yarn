@@ -5,7 +5,6 @@ import { Brightness4, Brightness7 } from '@mui/icons-material';
 
 const PublicRoute = () => {
     const { darkMode, toggleTheme } = useCustomTheme();
-
     return (
         <Box
             sx={{
@@ -15,7 +14,7 @@ const PublicRoute = () => {
         >
             <IconButton
                 onClick={toggleTheme}
-                color='inherit'
+                color={darkMode ? 'default' : 'inherit'}
                 sx={{
                     position: 'absolute',
                     top: 16,

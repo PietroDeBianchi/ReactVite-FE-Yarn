@@ -1,13 +1,16 @@
 import { UseAuth } from '../../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
 import { CircularProgress, Box, Stack, useTheme, Container } from '@mui/material';
-//import Sidebar from '../../components/sidebar/Sidebar';
+import Sidebar from '../../components/sidebar/Sidebar';
 import Topbar from '../../components/topbar/Topbar';
 import { Role } from '../../types/User';
 
 type PrivateRouteProps = {
     allowedRoles: string[];
 };
+
+const topbarHeight = '64px';
+const sidebarWidth = '160px';
 
 const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     const { user, hasCookie, isLoading } = UseAuth();
@@ -33,39 +36,25 @@ const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
         return <Navigate to='/' />;
     }
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                minHeight: '100vh',
-            }}
-        >
-            {/* Sidebar */}
-            {/* <Sidebar /> */}
+        <Box>
+            {/* Topbar */}
+            <Topbar topbarHeight={topbarHeight} />
+            {/* Page content */}
             <Box
                 sx={{
-                    flexGrow: 1,
+                    minHeight: 'calc(100vh - 64px)',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    mt: topbarHeight, // Compensate for the topbar height
                 }}
             >
                 {/* Topbar */}
-                <Topbar />
-                {/* Page content */}
-                <Stack
-                    sx={{
-                        flexGrow: 1,
-                        py: 8,
-                        mt: 4,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: theme.palette.background.paper,
-                    }}
-                >
-                    <Container maxWidth='xl'>
-                        {/* This will render the current page */}
-                        <Outlet />
-                    </Container>
-                </Stack>
+                <Sidebar sidebarWidth={sidebarWidth} topbarHeight={topbarHeight} />
+                <Box sx={{ ml: sidebarWidth, p: 8, flexGrow: 1 }}>
+                    {/* This will render the current page */}
+                    <Outlet />
+                </Box>
             </Box>
         </Box>
     );

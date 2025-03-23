@@ -20,7 +20,7 @@ import {
     Menu as MenuIcon,
 } from '@mui/icons-material';
 
-const Topbar = () => {
+const Topbar = ({ topbarHeight }: { topbarHeight: string }) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const { logout } = UseAuth();
@@ -43,6 +43,7 @@ const Topbar = () => {
     return (
         <AppBar
             sx={{
+                height: topbarHeight,
                 background: theme.palette.background.default,
                 color: theme.palette.text.primary,
                 boxShadow: 'none',
@@ -52,8 +53,8 @@ const Topbar = () => {
         >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 {/* Titolo */}
-                <Typography variant='h4' color='primary' onClick={() => handleNavigation('/dashboard')}>
-                    A D A P T
+                <Typography variant='h5' color='primary' onClick={() => handleNavigation('/dashboard')}>
+                    DASHBOARD
                 </Typography>
 
                 {/* Logo o Avatar */}

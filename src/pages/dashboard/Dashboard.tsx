@@ -25,10 +25,10 @@ const Dashboard = () => {
     const { user } = UseAuth();
 
     return (
-        <Grid2 container spacing={3}>
+        <Grid2 container spacing={3} sx={{ mt: 4 }}>
             {/* User Profile Section */}
             <Grid2 size={12}>
-                <Typography variant='h4' fontWeight='bold' color='primary.main' sx={{ mt: 3 }}>
+                <Typography variant='h4' fontWeight='bold' color='primary.main'>
                     Welcome, {user?.firstName}!
                 </Typography>
                 <Typography variant='body1' color='text.secondary' sx={{ mb: 2 }}>
