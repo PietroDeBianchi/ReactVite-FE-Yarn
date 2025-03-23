@@ -25,7 +25,7 @@ const Dashboard = () => {
     const { user } = UseAuth();
 
     return (
-        <Grid2 container spacing={3} sx={{ mt: 4 }}>
+        <Grid2 container spacing={3}>
             {/* User Profile Section */}
             <Grid2 size={12}>
                 <Typography variant='h4' fontWeight='bold' color='primary.main'>
