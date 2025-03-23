@@ -14,10 +14,33 @@ import {
     IconButton,
     useTheme,
     Container,
+    useMediaQuery,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import * as z from 'zod';
 import { register as registerUser } from '../../services/api/auth';
+
+// Layout configuration
+const LAYOUT_CONFIG = {
+    breakpoints: {
+        mobile: '(max-width: 600px)',
+    },
+    snackbar: {
+        duration: 4000,
+        position: { vertical: 'top', horizontal: 'center' },
+    },
+    background: {
+        light: 'linear-gradient(to right, #E3F2FD, #90CAF9)',
+        dark: 'linear-gradient(to right, #1E1E1E, #424242)',
+    },
+    container: {
+        margin: {
+            top: 12.5,
+            bottom: 8,
+            horizontal: 2,
+        },
+    },
+} as const;
 
 // Validation schema using Zod
 const registerSchema = z
@@ -41,15 +64,22 @@ const registerSchema = z
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
+/**
+ * Register component handles user registration with form validation
+ * Includes password confirmation, phone number validation, and responsive design
+ */
 const Register = () => {
+    // State management
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
+    // Hooks
     const navigate = useNavigate();
-    const theme = useTheme(); // Hook per usare il tema
+    const theme = useTheme();
+    const isMobile = useMediaQuery(LAYOUT_CONFIG.breakpoints.mobile);
 
     // React Hook Form setup
     const {
@@ -94,14 +124,21 @@ const Register = () => {
                 alignItems: 'center',
                 background:
                     theme.palette.mode === 'light'
-                        ? 'linear-gradient(to right, #E3F2FD, #90CAF9)'
-                        : 'linear-gradient(to right, #1E1E1E, #424242)',
+                        ? LAYOUT_CONFIG.background.light
+                        : LAYOUT_CONFIG.background.dark,
                 transition: 'background 0.3s ease-in-out',
             }}
         >
-            <Container maxWidth='sm'>
+            <Container
+                maxWidth='sm'
+                sx={{
+                    mb: LAYOUT_CONFIG.container.margin.bottom,
+                    mt: LAYOUT_CONFIG.container.margin.top,
+                    mx: LAYOUT_CONFIG.container.margin.horizontal,
+                }}
+            >
                 <CustomCard hover={false}>
-                    {/* Titolo */}
+                    {/* Header */}
                     <Box sx={{ textAlign: 'center', mb: 3 }}>
                         <Typography variant='h4' fontWeight='bold' color='primary'>
                             Sign Up
@@ -111,10 +148,12 @@ const Register = () => {
                         </Typography>
                     </Box>
 
-                    {/* Form */}
-                    <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+                    {/* Registration Form */}
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        {/* Personal Information Fields */}
                         <TextField
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             label='First Name'
                             variant='outlined'
                             margin='normal'
@@ -124,6 +163,7 @@ const Register = () => {
                         />
                         <TextField
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             label='Last Name'
                             variant='outlined'
                             margin='normal'
@@ -134,6 +174,7 @@ const Register = () => {
                         <TextField
                             fullWidth
                             label='Email'
+                            size={isMobile ? 'small' : 'medium'}
                             type='email'
                             variant='outlined'
                             margin='normal'
@@ -143,6 +184,7 @@ const Register = () => {
                         />
                         <TextField
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             label='Phone (optional)'
                             variant='outlined'
                             margin='normal'
@@ -151,9 +193,10 @@ const Register = () => {
                             helperText={errors.phone?.message}
                         />
 
-                        {/* Password */}
+                        {/* Password Fields */}
                         <TextField
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             label='Password'
                             type={showPassword ? 'text' : 'password'}
                             variant='outlined'
@@ -168,6 +211,7 @@ const Register = () => {
                                             <IconButton
                                                 onClick={() => setShowPassword(!showPassword)}
                                                 edge='end'
+                                                aria-label='toggle password visibility'
                                             >
                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
@@ -177,9 +221,9 @@ const Register = () => {
                             }}
                         />
 
-                        {/* Conferma Password */}
                         <TextField
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             label='Confirm Password'
                             type={showConfirmPassword ? 'text' : 'password'}
                             variant='outlined'
@@ -196,6 +240,7 @@ const Register = () => {
                                                     setShowConfirmPassword(!showConfirmPassword)
                                                 }
                                                 edge='end'
+                                                aria-label='toggle confirm password visibility'
                                             >
                                                 {showConfirmPassword ? (
                                                     <VisibilityOff />
@@ -209,9 +254,10 @@ const Register = () => {
                             }}
                         />
 
-                        {/* Bottone Register */}
+                        {/* Submit Button */}
                         <Button
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             variant='contained'
                             color='primary'
                             type='submit'
@@ -232,7 +278,7 @@ const Register = () => {
                         </Button>
                     </form>
 
-                    {/* Login Redirect */}
+                    {/* Login Link */}
                     <Typography
                         variant='body2'
                         sx={{ mt: 2, textAlign: 'center' }}
@@ -247,12 +293,13 @@ const Register = () => {
                         </Link>
                     </Typography>
                 </CustomCard>
-                {/* Snackbar for Notifications */}
+
+                {/* Notification Snackbar */}
                 <Snackbar
                     open={openSnackbar}
-                    autoHideDuration={4000}
+                    autoHideDuration={LAYOUT_CONFIG.snackbar.duration}
                     onClose={() => setOpenSnackbar(false)}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    anchorOrigin={LAYOUT_CONFIG.snackbar.position}
                 >
                     <Alert
                         onClose={() => setOpenSnackbar(false)}

@@ -1,6 +1,6 @@
 import { UseAuth } from '../../context/AuthContext';
 import CustomCard from '../../components/customCard/CustomCard';
-import { Typography, TextField, Button, Grid2, Box } from '@mui/material';
+import { Typography, TextField, Button, Grid2, Box, useMediaQuery, Stack } from '@mui/material';
 import {
     LineChart,
     Line,
@@ -21,12 +21,58 @@ import {
     recentActivity,
 } from '../../_MOCK/dashboardData';
 
+// Layout configuration
+const LAYOUT_CONFIG = {
+    grid: {
+        spacing: 3,
+        container: {
+            spacing: 3,
+        },
+    },
+    charts: {
+        height: 300,
+        pieChart: {
+            outerRadius: 80,
+            cx: '50%',
+            cy: '50%',
+        },
+    },
+    responsive: {
+        quickStats: {
+            xs: 12,
+            sm: 6,
+            md: 3,
+        },
+        lineChart: {
+            sm: 12,
+            md: 8,
+        },
+        pieChart: {
+            sm: 12,
+            md: 4,
+        },
+        actions: {
+            xs: 12,
+            md: 6,
+        },
+    },
+    breakpoints: {
+        tablet: '(max-width: 1200px)',
+        mobile: '(max-width: 600px)',
+    },
+} as const;
+
+/**
+ * Dashboard component displays user overview with statistics, charts,
+ * and recent activity in a responsive grid layout
+ */
 const Dashboard = () => {
     const { user } = UseAuth();
-
+    //const isMobile = useMediaQuery(LAYOUT_CONFIG.breakpoints.mobile);
+    const isTablet = useMediaQuery(LAYOUT_CONFIG.breakpoints.tablet);
     return (
-        <Grid2 container spacing={3}>
-            {/* User Profile Section */}
+        <Grid2 container spacing={LAYOUT_CONFIG.grid.spacing}>
+            {/* Welcome Section */}
             <Grid2 size={12}>
                 <Typography variant='h4' fontWeight='bold' color='primary.main'>
                     Welcome, {user?.firstName}!
@@ -37,30 +83,33 @@ const Dashboard = () => {
                 </Typography>
             </Grid2>
 
-            {/* Quick Stats */}
-            {quickStats.map((stat, index) => (
-                <Grid2 key={index} size={{ xs: 12, sm: 6, md: 3 }}>
-                    <CustomCard>
-                        <Typography variant='h6' gutterBottom>
-                            {stat.title}
-                        </Typography>
-                        <Typography variant='h4' color='primary'>
-                            {stat.value}
-                        </Typography>
-                        <Typography variant='body2' color='text.secondary'>
-                            {stat.change}
-                        </Typography>
-                    </CustomCard>
-                </Grid2>
-            ))}
-
+            {/* Quick Stats Section */}
+            <Grid2 container size={12} spacing={LAYOUT_CONFIG.grid.spacing}>
+                {quickStats.map((stat, index) => (
+                    <Grid2 key={index} size={LAYOUT_CONFIG.responsive.quickStats}>
+                        <CustomCard>
+                            <Stack direction='column' justifyContent='space-between' alignItems='center' height='100%'> 
+                                <Typography variant={isTablet ? 'body1' : 'subtitle1'} gutterBottom>
+                                    {stat.title}
+                                </Typography>
+                                <Typography variant={isTablet ? 'h5' : 'h4'} color='primary'>
+                                    {stat.value}
+                                </Typography>
+                                <Typography variant='caption' color='text.secondary'>
+                                    {stat.change}
+                                </Typography>
+                            </Stack>
+                        </CustomCard>
+                    </Grid2>
+                ))}
+            </Grid2>
             {/* Charts Section */}
-            <Grid2 size={{ sm: 12, md: 8 }} width={'100%'}>
+            <Grid2 size={LAYOUT_CONFIG.responsive.lineChart} width={'100%'}>
                 <CustomCard>
                     <Typography variant='h6' gutterBottom>
                         Monthly Trends
                     </Typography>
-                    <Box sx={{ width: '100%', height: 300 }}>
+                    <Box sx={{ width: '100%', height: LAYOUT_CONFIG.charts.height }}>
                         <ResponsiveContainer>
                             <LineChart data={lineChartData}>
                                 <CartesianGrid strokeDasharray='3 3' />
@@ -74,19 +123,19 @@ const Dashboard = () => {
                 </CustomCard>
             </Grid2>
 
-            <Grid2 size={{sm: 12, md: 4 }} width={'100%'}>
+            <Grid2 size={LAYOUT_CONFIG.responsive.pieChart} width={'100%'}>
                 <CustomCard>
                     <Typography variant='h6' gutterBottom>
                         Distribution
                     </Typography>
-                    <ResponsiveContainer minHeight={300} width={'100%'}>
+                    <ResponsiveContainer minHeight={LAYOUT_CONFIG.charts.height} width='100%'>
                         <PieChart>
                             <Pie
                                 data={pieChartData}
-                                cx='50%'
-                                cy='50%'
+                                cx={LAYOUT_CONFIG.charts.pieChart.cx}
+                                cy={LAYOUT_CONFIG.charts.pieChart.cy}
                                 labelLine={false}
-                                outerRadius={80}
+                                outerRadius={LAYOUT_CONFIG.charts.pieChart.outerRadius}
                                 fill='#8884d8'
                                 dataKey='value'
                             >
@@ -103,8 +152,8 @@ const Dashboard = () => {
                 </CustomCard>
             </Grid2>
 
-            {/* Input Section */}
-            <Grid2 size={{ xs: 12, md: 6 }}>
+            {/* Quick Actions Section */}
+            <Grid2 size={LAYOUT_CONFIG.responsive.actions} sx={{ height: '100%' }}>
                 <CustomCard>
                     <Typography variant='h6' gutterBottom>
                         Quick Actions
@@ -116,8 +165,8 @@ const Dashboard = () => {
                 </CustomCard>
             </Grid2>
 
-            {/* Recent Activity */}
-            <Grid2 size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
+            {/* Recent Activity Section */}
+            <Grid2 size={LAYOUT_CONFIG.responsive.actions} sx={{ display: 'flex' }}>
                 <CustomCard sx={{ flexGrow: 1 }}>
                     <Typography variant='h6' gutterBottom>
                         Recent Activity

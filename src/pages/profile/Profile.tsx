@@ -13,11 +13,39 @@ import {
     Stack,
     Chip,
     Container,
+    useMediaQuery,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUser } from '../../services/api/user';
+
+// Layout configuration
+const LAYOUT_CONFIG = {
+    breakpoints: {
+        mobile: '(max-width: 600px)',
+    },
+    snackbar: {
+        duration: 4000,
+        position: { vertical: 'top', horizontal: 'center' },
+    },
+    avatar: {
+        size: 80,
+        fontSize: '2rem',
+    },
+    form: {
+        button: {
+            mobile: {
+                fontSize: '0.70rem',
+            },
+            desktop: {
+                fontSize: '1rem',
+            },
+            py: 1.2,
+            borderRadius: 2,
+        },
+    },
+} as const;
 
 // Validation schema using Zod
 const profileSchema = z.object({
@@ -34,16 +62,23 @@ const profileSchema = z.object({
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
+/**
+ * Profile component handles user profile management with form validation
+ * Includes avatar display, role indicator, and responsive design
+ */
 const Profile = () => {
+    // Hooks
     const { user } = UseAuth();
     const navigate = useNavigate();
     const theme = useTheme();
+    const isMobile = useMediaQuery(LAYOUT_CONFIG.breakpoints.mobile);
 
+    // State management
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
-    // React Hook Form con valori predefiniti
+    // Form setup
     const {
         register,
         handleSubmit,
@@ -59,7 +94,7 @@ const Profile = () => {
         },
     });
 
-    // Gestione del form
+    // Handle form submission
     const onSubmit = async (data: ProfileFormData) => {
         try {
             if (!user?._id) return;
@@ -80,21 +115,21 @@ const Profile = () => {
 
     return (
         <Container maxWidth='sm'>
-            <CustomCard hover={false} sx={{ p: 4 }}>
+            <CustomCard hover={false}>
                 {/* User Avatar */}
                 <Avatar
                     sx={{
-                        width: 80,
-                        height: 80,
+                        width: LAYOUT_CONFIG.avatar.size,
+                        height: LAYOUT_CONFIG.avatar.size,
                         margin: '0 auto',
                         bgcolor: theme.palette.primary.dark,
-                        fontSize: '2rem',
+                        fontSize: LAYOUT_CONFIG.avatar.fontSize,
                     }}
                 >
                     {user?.firstName?.charAt(0).toUpperCase()}
                 </Avatar>
 
-                {/* Titolo */}
+                {/* Header */}
                 <Typography variant='h4' fontWeight='bold' color='primary' sx={{ mt: 2 }}>
                     User Profile
                 </Typography>
@@ -108,10 +143,11 @@ const Profile = () => {
                     sx={{ my: 2 }}
                 />
 
-                {/* Form Profilo */}
+                {/* Profile Form */}
                 <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
                     <TextField
                         fullWidth
+                        size={isMobile ? 'small' : 'medium'}
                         label='First Name'
                         variant='outlined'
                         margin='normal'
@@ -121,6 +157,7 @@ const Profile = () => {
                     />
                     <TextField
                         fullWidth
+                        size={isMobile ? 'small' : 'medium'}
                         label='Last Name'
                         variant='outlined'
                         margin='normal'
@@ -130,6 +167,7 @@ const Profile = () => {
                     />
                     <TextField
                         fullWidth
+                        size={isMobile ? 'small' : 'medium'}
                         label='Email'
                         type='email'
                         variant='outlined'
@@ -140,6 +178,7 @@ const Profile = () => {
                     />
                     <TextField
                         fullWidth
+                        size={isMobile ? 'small' : 'medium'}
                         label='Phone'
                         variant='outlined'
                         margin='normal'
@@ -147,6 +186,8 @@ const Profile = () => {
                         error={!!errors.phone}
                         helperText={errors.phone?.message}
                     />
+
+                    {/* Action Buttons */}
                     <Stack
                         direction='row'
                         alignItems='center'
@@ -154,16 +195,18 @@ const Profile = () => {
                         gap={4}
                         mt={4}
                     >
-                        {/* Bottone Submit */}
                         <Button
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             variant='contained'
                             color='primary'
                             sx={{
                                 textTransform: 'none',
-                                fontSize: '1rem',
-                                py: 1.2,
-                                borderRadius: 2,
+                                fontSize: isMobile 
+                                    ? LAYOUT_CONFIG.form.button.mobile.fontSize 
+                                    : LAYOUT_CONFIG.form.button.desktop.fontSize,
+                                py: LAYOUT_CONFIG.form.button.py,
+                                borderRadius: LAYOUT_CONFIG.form.button.borderRadius,
                                 transition: '0.3s',
                                 '&:hover': {
                                     backgroundColor: theme.palette.primary.dark,
@@ -174,17 +217,19 @@ const Profile = () => {
                             Save Changes
                         </Button>
 
-                        {/* Torna alla Dashboard */}
                         <Button
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             variant='outlined'
                             color='inherit'
                             sx={{
                                 color: theme.palette.text.primary,
                                 textTransform: 'none',
-                                fontSize: '1rem',
-                                py: 1.2,
-                                borderRadius: 2,
+                                fontSize: isMobile 
+                                    ? LAYOUT_CONFIG.form.button.mobile.fontSize 
+                                    : LAYOUT_CONFIG.form.button.desktop.fontSize,
+                                py: LAYOUT_CONFIG.form.button.py,
+                                borderRadius: LAYOUT_CONFIG.form.button.borderRadius,
                                 transition: '0.3s',
                                 '&:hover': {
                                     backgroundColor: theme.palette.primary.dark + '22',
@@ -198,19 +243,17 @@ const Profile = () => {
                 </form>
             </CustomCard>
 
-            {/* Snackbar per Notifiche */}
+            {/* Notification Snackbar */}
             <Snackbar
                 open={openSnackbar}
-                autoHideDuration={4000}
+                autoHideDuration={LAYOUT_CONFIG.snackbar.duration}
                 onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                anchorOrigin={LAYOUT_CONFIG.snackbar.position}
             >
                 <Alert
                     onClose={() => setOpenSnackbar(false)}
                     severity={error ? 'error' : 'success'}
-                    sx={{
-                        width: '100%',
-                    }}
+                    sx={{ width: '100%' }}
                 >
                     {error || message}
                 </Alert>

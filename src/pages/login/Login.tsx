@@ -13,19 +13,42 @@ import {
     InputAdornment,
     IconButton,
     useTheme,
+    useMediaQuery,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
+// Layout configuration
+const LAYOUT_CONFIG = {
+    breakpoints: {
+        mobile: '(max-width: 600px)',
+    },
+    snackbar: {
+        duration: 4000,
+        position: { vertical: 'top', horizontal: 'center' },
+    },
+    background: {
+        light: 'linear-gradient(to right, #E3F2FD, #90CAF9)',
+        dark: 'linear-gradient(to right, #1E1E1E, #424242)',
+    },
+} as const;
+
+/**
+ * Login component handles user authentication with email and password
+ * Includes form validation, error handling, and responsive design
+ */
 const Login = () => {
+    // State management
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
+    // Hooks
     const { login } = UseAuth();
     const navigate = useNavigate();
-    const theme = useTheme(); // Hook per accedere al tema
+    const theme = useTheme();
+    const isMobile = useMediaQuery(LAYOUT_CONFIG.breakpoints.mobile);
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
@@ -54,14 +77,14 @@ const Login = () => {
                 alignItems: 'center',
                 background:
                     theme.palette.mode === 'light'
-                        ? 'linear-gradient(to right, #E3F2FD, #90CAF9)'
-                        : 'linear-gradient(to right, #1E1E1E, #424242)',
+                        ? LAYOUT_CONFIG.background.light
+                        : LAYOUT_CONFIG.background.dark,
                 transition: 'background 0.3s ease-in-out',
             }}
         >
             <Container maxWidth='sm'>
                 <CustomCard hover={false}>
-                    {/* Titolo */}
+                    {/* Header */}
                     <Box sx={{ textAlign: 'center', mb: 3 }}>
                         <Typography
                             variant='h4'
@@ -77,8 +100,10 @@ const Login = () => {
 
                     {/* Login Form */}
                     <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                        {/* Email Field */}
                         <TextField
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             label='Email'
                             type='email'
                             variant='outlined'
@@ -87,25 +112,31 @@ const Login = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             error={!!error}
                         />
+
+                        {/* Password Field */}
                         <TextField
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             label='Password'
                             type={showPassword ? 'text' : 'password'}
                             variant='outlined'
                             margin='normal'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position='end'>
-                                        <IconButton
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            edge='end'
-                                        >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <IconButton
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                edge='end'
+                                                aria-label='toggle password visibility'
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                },
                             }}
                             error={!!error}
                         />
@@ -113,6 +144,7 @@ const Login = () => {
                         {/* Submit Button */}
                         <Button
                             fullWidth
+                            size={isMobile ? 'small' : 'medium'}
                             variant='contained'
                             color='primary'
                             type='submit'
@@ -132,7 +164,7 @@ const Login = () => {
                         </Button>
                     </form>
 
-                    {/* Sign Up Redirect */}
+                    {/* Sign Up Link */}
                     <Typography
                         variant='body2'
                         sx={{ mt: 2, textAlign: 'center' }}
@@ -152,12 +184,12 @@ const Login = () => {
                 </CustomCard>
             </Container>
 
-            {/* Snackbar for Notifications */}
+            {/* Error Notification */}
             <Snackbar
                 open={openSnackbar}
-                autoHideDuration={4000}
+                autoHideDuration={LAYOUT_CONFIG.snackbar.duration}
                 onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                anchorOrigin={LAYOUT_CONFIG.snackbar.position}
             >
                 <Alert
                     onClose={() => setOpenSnackbar(false)}

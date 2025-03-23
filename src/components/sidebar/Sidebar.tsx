@@ -9,6 +9,45 @@ import NavItem from '../navItem/NavItem';
 // ASSETS
 import logoExpanded from '../../assets/logo/logo.png';
 
+// Configuration
+const SIDEBAR_CONFIG = {
+    styles: {
+        list: {
+            py: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            zIndex: 1300,
+            cursor: 'pointer',
+            transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+            minHeight: '100vh',
+        },
+        header: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mb: 2,
+            px: 2,
+            position: 'relative',
+        },
+        logo: {
+            height: '80%',
+            cursor: 'pointer',
+        },
+        toggleButton: {
+            position: 'fixed',
+            top: 60.5,
+            transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+        },
+    },
+    positions: {
+        toggleButton: {
+            expanded: { left: 140.5 },
+            collapsed: { left: 44.5 },
+        },
+    },
+} as const;
+
+// Types
 interface SidebarProps {
     sidebarWidth: string;
     topbarHeight: string;
@@ -16,11 +55,14 @@ interface SidebarProps {
     onToggle: () => void;
 }
 
+/**
+ * Sidebar component provides navigation for desktop view
+ * Includes collapsible functionality, logo, and navigation items
+ */
 const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarProps) => {
     const theme = useTheme();
     const { logout } = UseAuth();
     const navigate = useNavigate();
-    const transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
 
     const handleNavigation = (path: string, isLogout: boolean = false) => {
         if (!isLogout) {
@@ -49,27 +91,16 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
                 position: 'fixed',
                 top: 0,
                 left: 0,
-                py: 1,
                 background: theme.palette.background.default,
-                transition: transition,
-                minHeight: '100%',
-                display: 'flex',
-                flexDirection: 'column',
                 borderRight: `1px solid ${theme.palette.divider}`,
-                zIndex: 1300,
-                cursor: 'pointer',
+                ...SIDEBAR_CONFIG.styles.list,
             }}
         >
             <Box
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    ...SIDEBAR_CONFIG.styles.header,
                     height: topbarHeight,
-                    mb: 2,
-                    px: 2,
                     borderBottom: `1px solid ${theme.palette.divider}`,
-                    position: 'relative',
                 }}
             >
                 {isExpanded ? (
@@ -78,10 +109,7 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
                         src={logoExpanded}
                         alt='ADAPT'
                         onClick={() => handleNavigation('/dashboard')}
-                        sx={{
-                            height: `80%`,
-                            cursor: 'pointer',
-                        }}
+                        sx={SIDEBAR_CONFIG.styles.logo}
                     />
                 ) : (
                     <Typography
@@ -96,20 +124,23 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
 
                 <Box
                     sx={{
-                        position: 'fixed',
-                        top: 60.5,
-                        left: isExpanded ? 140.5 : 44.5,
-                        transition: transition,
+                        ...SIDEBAR_CONFIG.styles.toggleButton,
+                        left: isExpanded 
+                            ? SIDEBAR_CONFIG.positions.toggleButton.expanded.left 
+                            : SIDEBAR_CONFIG.positions.toggleButton.collapsed.left,
                     }}
                 >
-                    <IconButton onClick={onToggle}>
+                    <IconButton 
+                        onClick={onToggle}
+                        aria-label={isExpanded ? "collapse sidebar" : "expand sidebar"}
+                    >
                         {isExpanded ? <ChevronLeft /> : <ChevronRight />}
                     </IconButton>
                 </Box>
             </Box>
             {menuItems.map((item, index) => (
                 <NavItem
-                    key={index} // REACT PROPS KEY
+                    key={index}
                     item={item}
                     isExpanded={isExpanded}
                     onClick={() => handleNavigation(item.path, item.isLogout)}

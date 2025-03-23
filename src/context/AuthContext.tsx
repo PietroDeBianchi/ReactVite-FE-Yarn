@@ -10,6 +10,19 @@ import { getMe, login } from "../services/api/auth";
 import User from "../types/User";
 import ApiResponse from "../types/ApiResponse";
 
+// Configuration
+const AUTH_CONFIG = {
+    storage: {
+        tokenKey: "token",
+    },
+    default: {
+        user: null as User | null,
+        hasCookie: false,
+        isLoading: true,
+        isAuthenticating: false,
+    },
+} as const;
+
 // Types
 interface AuthContextType {
     user: User | null;
@@ -21,12 +34,10 @@ interface AuthContextType {
 }
 
 // Token Management
-const TOKEN_KEY = "token";
-
 const tokenManager = {
-    getToken: () => Cookies.get(TOKEN_KEY),
-    setToken: (token: string) => Cookies.set(TOKEN_KEY, token),
-    removeToken: () => Cookies.remove(TOKEN_KEY),
+    getToken: () => Cookies.get(AUTH_CONFIG.storage.tokenKey),
+    setToken: (token: string) => Cookies.set(AUTH_CONFIG.storage.tokenKey, token),
+    removeToken: () => Cookies.remove(AUTH_CONFIG.storage.tokenKey),
     hasToken: () => {
         const token = tokenManager.getToken();
         return token && token.trim() !== "";
@@ -36,15 +47,21 @@ const tokenManager = {
 // Context Create
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Context Provider
+/**
+ * AuthProvider component manages authentication state and provides auth-related functions
+ * Handles user session, token management, and authentication status
+ */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [hasCookie, setHasCookie] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAuthenticating, setIsAuthenticating] = useState(false);
+    // State management
+    const [user, setUser] = useState<User | null>(AUTH_CONFIG.default.user);
+    const [hasCookie, setHasCookie] = useState<boolean>(AUTH_CONFIG.default.hasCookie);
+    const [isLoading, setIsLoading] = useState<boolean>(AUTH_CONFIG.default.isLoading);
+    const [isAuthenticating, setIsAuthenticating] = useState<boolean>(AUTH_CONFIG.default.isAuthenticating);
 
-    console.log('LOOP');
-    
+    /**
+     * Fetches user data from the server
+     * Updates authentication state based on response
+     */
     const fetchUser = async () => {
         if (!tokenManager.hasToken()) {
             setIsLoading(false);
@@ -68,6 +85,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    /**
+     * Handles user login process
+     * @param email - User's email
+     * @param password - User's password
+     * @returns Promise with login response
+     */
     const handleLogin = async (email: string, password: string): Promise<ApiResponse> => {
         setIsAuthenticating(true);
         try {
@@ -84,12 +107,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    /**
+     * Handles user logout process
+     * Clears authentication state and token
+     */
     const handleLogout = () => {
         tokenManager.removeToken();
         setUser(null);
         setHasCookie(false);
     };
 
+    // Initialize authentication state
     useEffect(() => {
         fetchUser();
     }, []);
@@ -110,13 +138,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-// Hook for AuthContext
+/**
+ * Custom hook for accessing authentication context
+ * @throws Error if used outside of AuthProvider
+ * @returns Authentication context
+ */
 export const UseAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
-        throw new Error(
-            "UseAuth must be used within an AuthProvider"
-        );
+        throw new Error("UseAuth must be used within an AuthProvider");
     }
     return context;
 };
