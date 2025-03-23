@@ -1,18 +1,13 @@
+// HOOKS
 import { useNavigate } from 'react-router-dom';
-import {
-    Box,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    useTheme,
-    IconButton,
-    Tooltip,
-    Typography,
-} from '@mui/material';
-import { Dashboard, AccountCircle, Logout, ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { UseAuth } from '../../context/AuthContext';
-import logoExpanded from '../../assets/logos/adapt_logo.png';
+// MUI
+import { useTheme, Box, List, IconButton, Typography } from '@mui/material';
+import { Dashboard, AccountCircle, Logout, ChevronLeft, ChevronRight } from '@mui/icons-material';
+// COMPONENTS
+import NavItem from '../navItem/NavItem';
+// ASSETS
+import logoExpanded from '../../assets/logo/logo.png';
 
 interface SidebarProps {
     sidebarWidth: string;
@@ -25,12 +20,16 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
     const theme = useTheme();
     const { logout } = UseAuth();
     const navigate = useNavigate();
-
-    const handleNavigation = (path: string) => {
-        navigate(path);
-    };
-
     const transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+
+    const handleNavigation = (path: string, isLogout: boolean = false) => {
+        if (!isLogout) {
+            navigate(path);
+        } else {
+            logout();
+            navigate('/');
+        }
+    };
 
     const menuItems = [
         { icon: <Dashboard />, text: 'Dashboard', path: '/dashboard' },
@@ -38,10 +37,8 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
         {
             icon: <Logout />,
             text: 'Logout',
-            onClick: () => {
-                logout();
-                navigate('/');
-            },
+            path: '/',
+            isLogout: true,
         },
     ];
 
@@ -52,7 +49,7 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
                 position: 'fixed',
                 top: 0,
                 left: 0,
-                py: 0,
+                py: 1,
                 background: theme.palette.background.default,
                 transition: transition,
                 minHeight: '100%',
@@ -77,13 +74,13 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
             >
                 {isExpanded ? (
                     <Box
-                        component="img"
+                        component='img'
                         src={logoExpanded}
-                        alt="ADAPT"
+                        alt='ADAPT'
                         onClick={() => handleNavigation('/dashboard')}
-                        sx={{ 
+                        sx={{
                             height: `80%`,
-                            cursor: 'pointer'
+                            cursor: 'pointer',
                         }}
                     />
                 ) : (
@@ -100,8 +97,8 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
                 <Box
                     sx={{
                         position: 'fixed',
-                        top: 52.5,
-                        left: isExpanded ? 140 : 44,
+                        top: 60.5,
+                        left: isExpanded ? 140.5 : 44.5,
                         transition: transition,
                     }}
                 >
@@ -111,30 +108,12 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
                 </Box>
             </Box>
             {menuItems.map((item, index) => (
-                <Tooltip key={index} title={!isExpanded ? item.text : ''} placement='right'>
-                    <ListItem
-                        onClick={item.onClick || (() => handleNavigation(item.path!))}
-                        sx={{
-                            justifyContent: isExpanded ? 'flex-start' : 'center',
-                            px: isExpanded ? 2 : 1,
-                        }}
-                    >
-                        <ListItemIcon
-                            sx={{
-                                color: theme.palette.text.primary,
-                                minWidth: isExpanded ? 40 : 'auto',
-                            }}
-                        >
-                            {item.icon}
-                        </ListItemIcon>
-                        {isExpanded && (
-                            <ListItemText
-                                primary={item.text}
-                                sx={{ color: theme.palette.text.primary }}
-                            />
-                        )}
-                    </ListItem>
-                </Tooltip>
+                <NavItem
+                    key={index} // REACT PROPS KEY
+                    item={item}
+                    isExpanded={isExpanded}
+                    onClick={() => handleNavigation(item.path, item.isLogout)}
+                />
             ))}
         </List>
     );

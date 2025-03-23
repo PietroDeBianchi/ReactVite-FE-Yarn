@@ -2,7 +2,7 @@ import { useCustomTheme } from '../../context/ThemeContext';
 import { Outlet } from 'react-router-dom';
 import { Box, IconButton } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
-import logoExpanded from '../../assets/logos/adapt_logo.png';
+import logoExpanded from '../../assets/logo/logo.png';
 
 const PublicRoute = () => {
     const { darkMode, toggleTheme } = useCustomTheme();

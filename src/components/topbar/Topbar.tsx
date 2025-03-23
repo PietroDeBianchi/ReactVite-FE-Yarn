@@ -2,24 +2,23 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../../context/AuthContext';
 import { useCustomTheme } from '../../context/ThemeContext';
-import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    useTheme,
-    Box,
-    MenuItem,
-    Menu,
-    Avatar,
-} from '@mui/material';
+import { AppBar, Toolbar, IconButton, useTheme, Box, MenuItem, Menu, Avatar } from '@mui/material';
 import {
     AccountCircle,
     Brightness4,
     Brightness7,
     Logout,
+    Menu as MenuIcon,
 } from '@mui/icons-material';
 
-const Topbar = ({ topbarHeight, sidebarWidth }: { topbarHeight: string; sidebarWidth: string }) => {
+interface TopbarProps {
+    topbarHeight: string;
+    sidebarWidth: string;
+    isMobile: boolean;
+    onSidebarOpen?: () => void;
+}
+
+const Topbar = ({ topbarHeight, sidebarWidth, isMobile, onSidebarOpen }: TopbarProps) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const { logout } = UseAuth();
@@ -42,7 +41,7 @@ const Topbar = ({ topbarHeight, sidebarWidth }: { topbarHeight: string; sidebarW
     return (
         <AppBar
             sx={{
-                width: `calc(100% - ${sidebarWidth})`,
+                width: !isMobile ? `calc(100% - ${sidebarWidth})` : '100%',
                 height: topbarHeight,
                 background:
                     theme.palette.mode === 'light'
@@ -54,7 +53,17 @@ const Topbar = ({ topbarHeight, sidebarWidth }: { topbarHeight: string; sidebarW
                 transition: 'all 0.3s ease-in-out',
             }}
         >
-            <Toolbar sx={{ display: 'flex', justifyContent: 'end' }}>
+            <Toolbar
+                sx={{ display: 'flex', justifyContent: !isMobile ? 'flex-end' : 'space-between' }}
+            >
+                {isMobile && (
+                    <IconButton
+                        onClick={onSidebarOpen}
+                        sx={{ color: theme.palette.text.primary }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                )}
                 {/* Logo o Avatar */}
                 <Box>
                     {/* Menu di navigazione */}

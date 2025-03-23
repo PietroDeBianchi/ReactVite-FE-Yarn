@@ -1,6 +1,6 @@
 import { UseAuth } from '../../context/AuthContext';
 import CustomCard from '../../components/customCard/CustomCard';
-import { Typography, TextField, Button, Grid2 } from '@mui/material';
+import { Typography, TextField, Button, Grid2, Box } from '@mui/material';
 import {
     LineChart,
     Line,
@@ -55,12 +55,12 @@ const Dashboard = () => {
             ))}
 
             {/* Charts Section */}
-            <Grid2 size={{ sm: 12, md: 8 }}>
+            <Grid2 size={{ sm: 12, md: 8 }} width={'100%'}>
                 <CustomCard>
                     <Typography variant='h6' gutterBottom>
                         Monthly Trends
                     </Typography>
-                    <div style={{ width: '100%', height: 300 }}>
+                    <Box sx={{ width: '100%', height: 300 }}>
                         <ResponsiveContainer>
                             <LineChart data={lineChartData}>
                                 <CartesianGrid strokeDasharray='3 3' />
@@ -70,16 +70,16 @@ const Dashboard = () => {
                                 <Line type='monotone' dataKey='value' stroke='#8884d8' />
                             </LineChart>
                         </ResponsiveContainer>
-                    </div>
+                    </Box>
                 </CustomCard>
             </Grid2>
 
-            <Grid2 size={{sm: 12, md: 4 }}>
+            <Grid2 size={{sm: 12, md: 4 }} width={'100%'}>
                 <CustomCard>
                     <Typography variant='h6' gutterBottom>
                         Distribution
                     </Typography>
-                    <ResponsiveContainer minHeight={300}>
+                    <ResponsiveContainer minHeight={300} width={'100%'}>
                         <PieChart>
                             <Pie
                                 data={pieChartData}

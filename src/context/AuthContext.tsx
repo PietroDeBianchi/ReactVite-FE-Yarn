@@ -42,6 +42,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [hasCookie, setHasCookie] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+    console.log('LOOP');
     
     const fetchUser = async () => {
         if (!tokenManager.hasToken()) {
