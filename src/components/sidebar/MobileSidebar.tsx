@@ -1,8 +1,11 @@
 // HOOKS
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../../context/AuthContext';
-import { useTheme, Box, List, IconButton, Drawer, Divider } from '@mui/material';
-import { Dashboard, AccountCircle, Logout, Close } from '@mui/icons-material';
+// CONFIG
+import { AppRoutes } from '../../router/routesConfig';
+// MUI
+import { useTheme, Box, List, IconButton, Drawer, Divider, Stack } from '@mui/material';
+import { Close } from '@mui/icons-material';
 // COMPONENTS
 import NavItem from '../navItem/NavItem';
 // ASSETS
@@ -31,51 +34,31 @@ const MOBILE_SIDEBAR_CONFIG = {
     },
 } as const;
 
-// Types
 interface MobileSidebarProps {
     open: boolean;
     onClose: () => void;
 }
 
-/**
- * MobileSidebar component provides a responsive navigation drawer for mobile devices
- * Includes logo, navigation items, and user actions
- */
+// CONST
+const mainRoutes = AppRoutes.filter((route) => !route.isLogout);
+const logoutRoute = AppRoutes.find((route) => route.isLogout);
+
 const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
-    // Hooks
     const theme = useTheme();
     const { logout } = UseAuth();
     const navigate = useNavigate();
 
-    // Navigation handler
     const handleNavigation = (path: string, isLogout: boolean = false) => {
-        onClose(); // Close the sidebar on any navigation
+        onClose();
         if (!isLogout) {
             navigate(path);
         } else {
             logout();
-            navigate('/');
         }
     };
 
-    // Navigation items configuration
-    const menuItems = [
-        { icon: <Dashboard />, text: 'Dashboard', path: '/dashboard' },
-        { icon: <AccountCircle />, text: 'Profile', path: '/profile' },
-        {
-            icon: <Logout />,
-            text: 'Logout',
-            path: '/',
-            isLogout: true,
-        },
-    ];
-
     return (
-        <Drawer 
-            anchor={MOBILE_SIDEBAR_CONFIG.drawer.anchor} 
-            open={open} 
-            onClose={onClose}
-        >
+        <Drawer anchor={MOBILE_SIDEBAR_CONFIG.drawer.anchor} open={open} onClose={onClose}>
             <Box
                 sx={{
                     width: MOBILE_SIDEBAR_CONFIG.drawer.width,
@@ -84,7 +67,6 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
                     backgroundColor: theme.palette.background.default,
                 }}
             >
-                {/* Header with Logo */}
                 <Box
                     sx={{
                         ...MOBILE_SIDEBAR_CONFIG.styles.header,
@@ -96,31 +78,39 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
                         src={logoExpanded}
                         alt='ADAPT'
                         onClick={() => handleNavigation('/dashboard')}
-                        sx={{ 
-                            height: MOBILE_SIDEBAR_CONFIG.logo.height, 
-                            cursor: 'pointer' 
+                        sx={{
+                            height: MOBILE_SIDEBAR_CONFIG.logo.height,
+                            cursor: 'pointer',
                         }}
                     />
-                    <IconButton 
-                        onClick={onClose}
-                        aria-label="close sidebar"
-                    >
+                    <IconButton onClick={onClose} aria-label='close sidebar'>
                         <Close />
                     </IconButton>
                 </Box>
 
                 <Divider />
 
-                {/* Navigation Items */}
-                <List>
-                    {menuItems.map((item, index) => (
-                        <NavItem
-                            key={index}
-                            item={item}
-                            isExpanded={true}
-                            onClick={() => handleNavigation(item.path, item.isLogout)}
-                        />
-                    ))}
+                <List sx={{...MOBILE_SIDEBAR_CONFIG.styles.container, height: '100% '}}>
+                    <Stack sx={{ flexGrow: 1 }}>
+                        {mainRoutes.map((item, index) => (
+                            <NavItem
+                                key={index}
+                                item={item}
+                                onClick={() => handleNavigation(item.path)}
+                            />
+                        ))}
+                    </Stack>
+
+                    {/* Logout sempre in fondo */}
+                    {logoutRoute && (
+                        <Stack sx={{ mb: 1, alignItems: 'center' }}>
+                            <NavItem
+                                item={logoutRoute}
+                                isLogout={true}
+                                onClick={() => handleNavigation(logoutRoute.path, true)}
+                            />
+                        </Stack>
+                    )}
                 </List>
             </Box>
         </Drawer>

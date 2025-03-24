@@ -1,4 +1,4 @@
-import { Stack, Tooltip, Typography, useTheme } from '@mui/material';
+import { Stack, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 // Configuration
@@ -13,10 +13,6 @@ const NAV_ITEM_CONFIG = {
             gap: 1,
             borderRadius: 2,
             transition: 'background-color 0.2s ease',
-        },
-        text: {
-            textAlign: 'start',
-            width: '80%',
         },
     },
     tooltip: {
@@ -34,6 +30,7 @@ interface NavItemData {
 interface NavItemProps {
     item: NavItemData;
     isExpanded?: boolean;
+    isLogout?: boolean;
     onClick: () => void;
 }
 
@@ -45,10 +42,12 @@ interface NavItemProps {
  * @param {boolean} [props.isExpanded] - Whether the navigation is expanded
  * @param {() => void} props.onClick - Click handler
  */
-const NavItem = ({ item, isExpanded, onClick }: NavItemProps) => {
+const NavItem = ({ item, isExpanded, isLogout = false, onClick }: NavItemProps) => {
     const theme = useTheme();
     const { pathname } = useLocation();
     const isActive = pathname === item.path;
+    const isMobile = useMediaQuery('(max-width: 600px)');
+
 
     return (
         <Tooltip
@@ -60,24 +59,27 @@ const NavItem = ({ item, isExpanded, onClick }: NavItemProps) => {
                 onClick={onClick}
                 sx={{
                     ...NAV_ITEM_CONFIG.styles.container,
-                    justifyContent: isExpanded ? 'space-between' : 'center',
+                    justifyContent: isExpanded ? 'start' : 'center',
                     color: theme.palette.text.primary,
                     backgroundColor: isActive ? theme.palette.action.selected : 'transparent',
                     '&:hover': {
-                        backgroundColor: theme.palette.action.hover,
+                        backgroundColor: !isLogout ? theme.palette.action.hover : 'transparent',
                     },
                 }}
-                role="button"
+                role='button'
                 tabIndex={0}
                 aria-label={item.text}
                 aria-current={isActive ? 'page' : undefined}
             >
                 {item.icon}
-                {isExpanded && (
-                    <Typography 
-                        sx={{ 
-                            ...NAV_ITEM_CONFIG.styles.text,
-                            color: theme.palette.text.primary 
+                {(isMobile || isExpanded) && (
+                    <Typography
+                        textAlign={'start'}
+                        sx={{
+                            color: !isLogout
+                                ? theme.palette.text.primary
+                                : theme.palette.error.main,
+                            width: isMobile?'100%':'auto',
                         }}
                     >
                         {item.text}

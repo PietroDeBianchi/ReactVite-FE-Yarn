@@ -6,7 +6,6 @@ const CARD_CONFIG = {
     styles: {
         base: {
             maxWidth: '100%',
-
             borderRadius: 4,
             boxShadow: 3,
             textAlign: 'center',

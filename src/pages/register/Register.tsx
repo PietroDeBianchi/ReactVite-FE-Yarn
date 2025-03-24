@@ -15,6 +15,7 @@ import {
     useTheme,
     Container,
     useMediaQuery,
+    Stack,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import * as z from 'zod';
@@ -39,6 +40,7 @@ const LAYOUT_CONFIG = {
             bottom: 8,
             horizontal: 2,
         },
+        padding: 0,
     },
 } as const;
 
@@ -135,6 +137,7 @@ const Register = () => {
                     mb: LAYOUT_CONFIG.container.margin.bottom,
                     mt: LAYOUT_CONFIG.container.margin.top,
                     mx: LAYOUT_CONFIG.container.margin.horizontal,
+                    p: LAYOUT_CONFIG.container.padding,
                 }}
             >
                 <CustomCard hover={false}>
@@ -151,26 +154,28 @@ const Register = () => {
                     {/* Registration Form */}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         {/* Personal Information Fields */}
-                        <TextField
-                            fullWidth
-                            size={isMobile ? 'small' : 'medium'}
-                            label='First Name'
-                            variant='outlined'
-                            margin='normal'
-                            {...formRegister('firstName')}
-                            error={!!errors.firstName}
-                            helperText={errors.firstName?.message}
-                        />
-                        <TextField
-                            fullWidth
-                            size={isMobile ? 'small' : 'medium'}
-                            label='Last Name'
-                            variant='outlined'
-                            margin='normal'
-                            {...formRegister('lastName')}
-                            error={!!errors.lastName}
-                            helperText={errors.lastName?.message}
-                        />
+                        <Stack flexDirection={isMobile ? 'column' : 'row'} gap={isMobile ? 0 : 2}>
+                            <TextField
+                                fullWidth
+                                size={isMobile ? 'small' : 'medium'}
+                                label='First Name'
+                                variant='outlined'
+                                margin='normal'
+                                {...formRegister('firstName')}
+                                error={!!errors.firstName}
+                                helperText={errors.firstName?.message}
+                            />
+                            <TextField
+                                fullWidth
+                                size={isMobile ? 'small' : 'medium'}
+                                label='Last Name'
+                                variant='outlined'
+                                margin='normal'
+                                {...formRegister('lastName')}
+                                error={!!errors.lastName}
+                                helperText={errors.lastName?.message}
+                            />
+                        </Stack>
                         <TextField
                             fullWidth
                             label='Email'

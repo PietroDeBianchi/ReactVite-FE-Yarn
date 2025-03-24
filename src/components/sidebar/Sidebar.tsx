@@ -1,9 +1,11 @@
 // HOOKS
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../../context/AuthContext';
+// CONFIG
+import { AppRoutes } from '../../router/routesConfig';
 // MUI
-import { useTheme, Box, List, IconButton, Typography } from '@mui/material';
-import { Dashboard, AccountCircle, Logout, ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { useTheme, Box, List, IconButton, Typography, Stack } from '@mui/material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 // COMPONENTS
 import NavItem from '../navItem/NavItem';
 // ASSETS
@@ -55,6 +57,10 @@ interface SidebarProps {
     onToggle: () => void;
 }
 
+// CONST
+const mainRoutes = AppRoutes.filter((route) => !route.isLogout);
+const logoutRoute = AppRoutes.find((route) => route.isLogout);
+
 /**
  * Sidebar component provides navigation for desktop view
  * Includes collapsible functionality, logo, and navigation items
@@ -69,20 +75,8 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
             navigate(path);
         } else {
             logout();
-            navigate('/');
         }
     };
-
-    const menuItems = [
-        { icon: <Dashboard />, text: 'Dashboard', path: '/dashboard' },
-        { icon: <AccountCircle />, text: 'Profile', path: '/profile' },
-        {
-            icon: <Logout />,
-            text: 'Logout',
-            path: '/',
-            isLogout: true,
-        },
-    ];
 
     return (
         <List
@@ -125,27 +119,42 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
                 <Box
                     sx={{
                         ...SIDEBAR_CONFIG.styles.toggleButton,
-                        left: isExpanded 
-                            ? SIDEBAR_CONFIG.positions.toggleButton.expanded.left 
+                        left: isExpanded
+                            ? SIDEBAR_CONFIG.positions.toggleButton.expanded.left
                             : SIDEBAR_CONFIG.positions.toggleButton.collapsed.left,
                     }}
                 >
-                    <IconButton 
+                    <IconButton
                         onClick={onToggle}
-                        aria-label={isExpanded ? "collapse sidebar" : "expand sidebar"}
+                        aria-label={isExpanded ? 'collapse sidebar' : 'expand sidebar'}
                     >
                         {isExpanded ? <ChevronLeft /> : <ChevronRight />}
                     </IconButton>
                 </Box>
             </Box>
-            {menuItems.map((item, index) => (
-                <NavItem
-                    key={index}
-                    item={item}
-                    isExpanded={isExpanded}
-                    onClick={() => handleNavigation(item.path, item.isLogout)}
-                />
-            ))}
+
+            <Stack sx={{ flexGrow: 1 }}>
+                {mainRoutes.map((item, index) => (
+                    <NavItem
+                        key={index}
+                        item={item}
+                        isExpanded={isExpanded}
+                        onClick={() => handleNavigation(item.path)}
+                    />
+                ))}
+            </Stack>
+
+            {/* Logout sempre in fondo */}
+            {logoutRoute && (
+                <Stack sx={{ mb: 1, alignItems: 'center' }}>
+                    <NavItem
+                        item={logoutRoute}
+                        isExpanded={isExpanded}
+                        isLogout={true}
+                        onClick={() => handleNavigation(logoutRoute.path, true)}
+                    />
+                </Stack>
+            )}
         </List>
     );
 };

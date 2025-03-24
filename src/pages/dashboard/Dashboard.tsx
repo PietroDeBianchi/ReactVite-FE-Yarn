@@ -68,7 +68,7 @@ const LAYOUT_CONFIG = {
  */
 const Dashboard = () => {
     const { user } = UseAuth();
-    //const isMobile = useMediaQuery(LAYOUT_CONFIG.breakpoints.mobile);
+    const isMobile = useMediaQuery(LAYOUT_CONFIG.breakpoints.mobile);
     const isTablet = useMediaQuery(LAYOUT_CONFIG.breakpoints.tablet);
     return (
         <Grid2 container spacing={LAYOUT_CONFIG.grid.spacing}>
@@ -87,8 +87,13 @@ const Dashboard = () => {
             <Grid2 container size={12} spacing={LAYOUT_CONFIG.grid.spacing}>
                 {quickStats.map((stat, index) => (
                     <Grid2 key={index} size={LAYOUT_CONFIG.responsive.quickStats}>
-                        <CustomCard>
-                            <Stack direction='column' justifyContent='space-between' alignItems='center' height='100%'> 
+                        <CustomCard sx={{ height: isMobile?'110px': '150px' }}>
+                            <Stack
+                                direction='column'
+                                justifyContent='space-between'
+                                alignItems='center'
+                                height='100%'
+                            >
                                 <Typography variant={isTablet ? 'body1' : 'subtitle1'} gutterBottom>
                                     {stat.title}
                                 </Typography>
