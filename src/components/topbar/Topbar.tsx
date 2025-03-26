@@ -149,7 +149,7 @@ const Topbar = ({ topbarHeight, sidebarWidth, isMobile, onSidebarOpen }: TopbarP
                             }}
                             sx={{mx: 0.5, borderRadius: 2}}
                         >
-                            <Logout sx={{ mr: 1, color: theme.palette.text.primary }} />
+                            <Logout sx={{ mr: 1 }} />
                             Logout
                         </MenuItem>
                     </Menu>

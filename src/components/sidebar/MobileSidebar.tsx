@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../../context/AuthContext';
 // CONFIG
-import { AppRoutes } from '../../router/routesConfig';
+import { AppRoutes } from '../../router/routes/ProtectedRoutes';
 // MUI
 import { useTheme, Box, List, IconButton, Drawer, Divider, Stack } from '@mui/material';
 import { Close } from '@mui/icons-material';
@@ -40,7 +40,7 @@ interface MobileSidebarProps {
 }
 
 // CONST
-const mainRoutes = AppRoutes.filter((route) => !route.isLogout);
+const mainRoutes = AppRoutes.filter((route) => route.isNav);
 const logoutRoute = AppRoutes.find((route) => route.isLogout);
 
 const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
@@ -106,7 +106,6 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
                         <Stack sx={{ mb: 1, alignItems: 'center' }}>
                             <NavItem
                                 item={logoutRoute}
-                                isLogout={true}
                                 onClick={() => handleNavigation(logoutRoute.path, true)}
                             />
                         </Stack>

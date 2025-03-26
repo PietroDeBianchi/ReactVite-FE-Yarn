@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../../context/AuthContext';
 // CONFIG
-import { AppRoutes } from '../../router/routesConfig';
+import { AppRoutes } from '../../router/routes/ProtectedRoutes';
 // MUI
 import { useTheme, Box, List, IconButton, Typography, Stack } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
@@ -58,7 +58,7 @@ interface SidebarProps {
 }
 
 // CONST
-const mainRoutes = AppRoutes.filter((route) => !route.isLogout);
+const mainRoutes = AppRoutes.filter((route) => route.isNav) ;
 const logoutRoute = AppRoutes.find((route) => route.isLogout);
 
 /**
@@ -77,7 +77,7 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
             logout();
         }
     };
-
+    console.log(mainRoutes);
     return (
         <List
             sx={{
@@ -150,7 +150,6 @@ const Sidebar = ({ sidebarWidth, topbarHeight, isExpanded, onToggle }: SidebarPr
                     <NavItem
                         item={logoutRoute}
                         isExpanded={isExpanded}
-                        isLogout={true}
                         onClick={() => handleNavigation(logoutRoute.path, true)}
                     />
                 </Stack>

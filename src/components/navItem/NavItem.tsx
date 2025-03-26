@@ -22,15 +22,17 @@ const NAV_ITEM_CONFIG = {
 
 // Types
 interface NavItemData {
-    icon: React.ReactElement;
     text: string;
     path: string;
+    icon?: React.ReactElement;
+    element: React.ReactElement | null;
+    isNav?: boolean;
+    isLogout?: boolean;
 }
 
 interface NavItemProps {
     item: NavItemData;
     isExpanded?: boolean;
-    isLogout?: boolean;
     onClick: () => void;
 }
 
@@ -42,12 +44,11 @@ interface NavItemProps {
  * @param {boolean} [props.isExpanded] - Whether the navigation is expanded
  * @param {() => void} props.onClick - Click handler
  */
-const NavItem = ({ item, isExpanded, isLogout = false, onClick }: NavItemProps) => {
+const NavItem = ({ item, isExpanded, onClick }: NavItemProps) => {
     const theme = useTheme();
     const { pathname } = useLocation();
     const isActive = pathname === item.path;
     const isMobile = useMediaQuery('(max-width: 600px)');
-
 
     return (
         <Tooltip
@@ -63,7 +64,7 @@ const NavItem = ({ item, isExpanded, isLogout = false, onClick }: NavItemProps) 
                     color: theme.palette.text.primary,
                     backgroundColor: isActive ? theme.palette.action.selected : 'transparent',
                     '&:hover': {
-                        backgroundColor: !isLogout ? theme.palette.action.hover : 'transparent',
+                        backgroundColor: !item.isLogout ? theme.palette.action.hover : 'transparent',
                     },
                 }}
                 role='button'
@@ -71,15 +72,15 @@ const NavItem = ({ item, isExpanded, isLogout = false, onClick }: NavItemProps) 
                 aria-label={item.text}
                 aria-current={isActive ? 'page' : undefined}
             >
-                {item.icon}
+                {item.icon && item.icon}
                 {(isMobile || isExpanded) && (
                     <Typography
                         textAlign={'start'}
                         sx={{
-                            color: !isLogout
+                            color: !item.isLogout
                                 ? theme.palette.text.primary
                                 : theme.palette.error.main,
-                            width: isMobile?'100%':'auto',
+                            width: isMobile ? '100%' : 'auto',
                         }}
                     >
                         {item.text}
